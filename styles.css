@@ -476,21 +476,32 @@ input:checked + .slider:before {
 .edit-textarea {
     flex: 1;
     margin-right: 8px;
-    padding: 4px;
+    padding: 4px 8px;
     background-color: var(--item-bg);
     border: 1px solid var(--input-border);
     border-radius: 4px;
     color: var(--text-color);
     font-family: inherit;
-    resize: none;
-    transition: border-color 0.2s;
+    resize: both;
+    transition: all 0.2s ease;
     width: 100%;
     box-sizing: border-box;
+    min-height: 60px;
+    max-height: 400px;
+    overflow: auto;
 }
 
 .edit-textarea:focus {
     outline: none;
     border-color: var(--primary-color);
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+}
+
+.edit-textarea::-webkit-resizer {
+    border-width: 8px;
+    border-style: solid;
+    border-color: transparent var(--primary-color) var(--primary-color) transparent;
+    background-color: transparent;
 }
 
 .icon {

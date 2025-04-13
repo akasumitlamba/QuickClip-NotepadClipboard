@@ -507,10 +507,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     textarea.value = item.text;
                     textarea.className = 'edit-textarea';
                     textarea.style.width = '100%';
-                    textarea.style.height = contentElement.offsetHeight + 'px';
+                    
+                    // Set initial height based on content
+                    const lineHeight = parseInt(getComputedStyle(contentElement).lineHeight);
+                    const lines = item.text.split('\n').length;
+                    const initialHeight = Math.min(Math.max(lines * lineHeight, 60), 400);
+                    textarea.style.height = initialHeight + 'px';
                     
                     contentElement.replaceWith(textarea);
                     textarea.focus();
+                    
+                    // Place cursor at the end of the text
+                    textarea.setSelectionRange(textarea.value.length, textarea.value.length);
                     
                     function saveEdit() {
                         const newText = textarea.value.trim();
