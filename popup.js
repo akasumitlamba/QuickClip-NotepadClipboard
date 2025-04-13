@@ -167,6 +167,14 @@ document.addEventListener('DOMContentLoaded', function() {
         return validatedSettings;
     }
 
+    // Function to update placeholder text based on Enter to Save setting
+    function updatePlaceholderText() {
+        const placeholder = enterToSave.checked 
+            ? "Enter text to save... (Enter to save, Shift+Enter for new line)"
+            : "Enter text to save... (Shift+Enter for new line)";
+        textInput.placeholder = placeholder;
+    }
+
     // Load settings with validation
     function loadSettings() {
         chrome.storage.local.get(['buttonSettings'], function(result) {
@@ -174,9 +182,11 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!result.buttonSettings) {
                 chrome.storage.local.set({ buttonSettings: defaultSettings }, function() {
                     validateAndApplySettings(defaultSettings);
+                    updatePlaceholderText(); // Update placeholder after loading defaults
                 });
             } else {
                 validateAndApplySettings(result.buttonSettings);
+                updatePlaceholderText(); // Update placeholder after loading settings
             }
         });
     }
@@ -235,6 +245,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     enterToSave.addEventListener('change', function() {
         saveSettings();
+        updatePlaceholderText();
     });
 
     doubleClickEdit.addEventListener('change', function() {
