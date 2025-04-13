@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QuickClip</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>QuickClip</h2>
+            <div class="header-buttons">
+                <button id="settingsBtn" class="settings-btn" title="Settings">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.07.63-.07.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                    </svg>
+                </button>
+                <label class="theme-switch">
+                    <input type="checkbox" id="themeToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+        
+        <div class="settings-panel" style="display: none;">
+            <h3>Settings</h3>
+            <div class="settings-options">
+                <label class="setting-option">
+                    <input type="checkbox" id="showCopyBtn">
+                    <span>Show Copy Button</span>
+                </label>
+                <label class="setting-option">
+                    <input type="checkbox" id="showDeleteBtn">
+                    <span>Show Delete Button</span>
+                </label>
+                <label class="setting-option">
+                    <input type="checkbox" id="showExpandBtn">
+                    <span>Show Expand Button</span>
+                </label>
+                <label class="setting-option">
+                    <input type="checkbox" id="showSaveBtn">
+                    <span>Show Save Button</span>
+                </label>
+                <label class="setting-option">
+                    <input type="checkbox" id="showPasteSaveBtn">
+                    <span>Show Paste & Save</span>
+                </label>
+                <label class="setting-option">
+                    <input type="checkbox" id="showSearch">
+                    <span>Show Search</span>
+                </label>
+                <label class="setting-option">
+                    <input type="checkbox" id="enterToSave">
+                    <span>Enter to Save</span>
+                </label>
+                <label class="setting-option">
+                    <input type="checkbox" id="doubleClickEdit">
+                    <span>Double-click to Edit</span>
+                </label>
+                <div class="font-size-option">
+                    <span>Font Size</span>
+                    <div class="font-size-control">
+                        <button id="decreaseFont" class="font-size-btn" title="Decrease Font Size">-</button>
+                        <span id="fontSizeValue">14px</span>
+                        <button id="increaseFont" class="font-size-btn" title="Increase Font Size">+</button>
+                    </div>
+                </div>
+            </div>
+            <div class="reset-settings">
+                <button id="resetSettings" class="reset-btn">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+                    </svg>
+                    Reset Settings
+                </button>
+            </div>
+        </div>
+        
+        <div class="input-section">
+            <textarea id="textInput" placeholder="Enter text to save... (Shift+Enter for new line)"></textarea>
+            <div class="button-group">
+                <button id="saveButton">Save</button>
+                <button id="pasteSaveButton">Paste & Save</button>
+            </div>
+        </div>
+        
+        <div class="search-section">
+            <input type="text" id="searchInput" placeholder="Search saved items...">
+            <button class="clear-search" title="Clear search">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="saved-items">
+            <div id="itemsList"></div>
+        </div>
+        <div class="footer">
+            <a href="https://github.com/akasumitlamba" target="_blank" class="credit-link">Made by @akasumitlamba</a>
+        </div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html> 
