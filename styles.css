@@ -96,7 +96,7 @@ body {
 .container {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
     width: 100%;
     box-sizing: border-box;
     padding: 0;
@@ -505,22 +505,23 @@ input:checked + .slider:before {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin-top: 10px;
+    margin-top: -5px;
+    padding: 0;
     width: 100%;
-    padding: 0 5px;
 }
 
 .credit-link {
     color: var(--text-color);
-    opacity: 0.4;
     text-decoration: none;
-    font-size: 10px;
-    transition: all 0.3s ease;
+    opacity: 0.7;
+    transition: all 0.2s ease;
+    font-size: 11px;
 }
 
 .credit-link:hover {
-    opacity: 0.8;
+    opacity: 1;
     color: var(--primary-color);
+    text-decoration: none;
 }
 
 /* Main textarea */
