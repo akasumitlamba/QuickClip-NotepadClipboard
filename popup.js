@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Get all DOM elements first
     const textInput = document.getElementById('textInput');
     const saveButton = document.getElementById('saveButton');
     const pasteSaveButton = document.getElementById('pasteSaveButton');
@@ -6,9 +7,31 @@ document.addEventListener('DOMContentLoaded', function() {
     const itemsList = document.getElementById('itemsList');
     const themeToggle = document.getElementById('themeToggle');
     const body = document.body;
+    const settingsBtn = document.getElementById('settingsBtn');
+    const settingsPanel = document.querySelector('.settings-panel');
+    const showCopyBtn = document.getElementById('showCopyBtn');
+    const showDeleteBtn = document.getElementById('showDeleteBtn');
+    const showExpandBtn = document.getElementById('showExpandBtn');
+    const showSaveBtn = document.getElementById('showSaveBtn');
+    const showPasteSaveBtn = document.getElementById('showPasteSaveBtn');
+    const showSearch = document.getElementById('showSearch');
+    const enterToSave = document.getElementById('enterToSave');
+    const doubleClickEdit = document.getElementById('doubleClickEdit');
+    const resetSettingsBtn = document.getElementById('resetSettings');
+    const decreaseFont = document.getElementById('decreaseFont');
+    const increaseFont = document.getElementById('increaseFont');
+    const fontSizeValue = document.getElementById('fontSizeValue');
+    const clearSearchBtn = document.querySelector('.clear-search');
 
     let savedItems = [];
     let currentTheme = localStorage.getItem('theme') || 'dark';
+
+    // Initialize settings panel state
+    settingsPanel.style.display = 'none';
+    clearSearchBtn.style.display = 'none';
+
+    // Load settings immediately
+    loadSettings();
 
     // Set initial theme
     body.setAttribute('data-theme', currentTheme);
@@ -81,22 +104,6 @@ document.addEventListener('DOMContentLoaded', function() {
         renderItems();
     });
 
-    // Settings functionality
-    const settingsBtn = document.getElementById('settingsBtn');
-    const settingsPanel = document.querySelector('.settings-panel');
-    const showCopyBtn = document.getElementById('showCopyBtn');
-    const showDeleteBtn = document.getElementById('showDeleteBtn');
-    const showExpandBtn = document.getElementById('showExpandBtn');
-    const showSaveBtn = document.getElementById('showSaveBtn');
-    const showPasteSaveBtn = document.getElementById('showPasteSaveBtn');
-    const showSearch = document.getElementById('showSearch');
-    const enterToSave = document.getElementById('enterToSave');
-    const doubleClickEdit = document.getElementById('doubleClickEdit');
-    const resetSettingsBtn = document.getElementById('resetSettings');
-
-    // Initialize settings panel state
-    settingsPanel.style.display = 'none';
-
     // Default settings
     const defaultSettings = {
         showCopyBtn: true,
@@ -111,17 +118,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Validate and apply settings
     function validateAndApplySettings(settings) {
-        // Default settings as fallback
-        const defaultSettings = {
-            showCopyBtn: true,
-            showDeleteBtn: true,
-            showExpandBtn: true,
-            showSaveBtn: true,
-            showPasteSaveBtn: true,
-            showSearch: true,
-            enterToSave: true,
-            doubleClickEdit: true
-        };
+        // If no settings exist, use defaults
+        if (!settings || Object.keys(settings).length === 0) {
+            settings = defaultSettings;
+        }
 
         // Validate each setting
         const validatedSettings = {};
@@ -170,11 +170,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load settings with validation
     function loadSettings() {
         chrome.storage.local.get(['buttonSettings'], function(result) {
-            const savedSettings = result.buttonSettings || {};
-            const validatedSettings = validateAndApplySettings(savedSettings);
-            
-            // Save validated settings back to storage
-            chrome.storage.local.set({ buttonSettings: validatedSettings });
+            // If no settings exist, initialize with defaults
+            if (!result.buttonSettings) {
+                chrome.storage.local.set({ buttonSettings: defaultSettings }, function() {
+                    validateAndApplySettings(defaultSettings);
+                });
+            } else {
+                validateAndApplySettings(result.buttonSettings);
+            }
         });
     }
 
@@ -194,71 +197,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const validatedSettings = validateAndApplySettings(settings);
         chrome.storage.local.set({ buttonSettings: validatedSettings });
     }
-
-    // Update button visibility with validation
-    function updateButtonVisibility() {
-        const copyButtons = document.querySelectorAll('.copy-btn');
-        const deleteButtons = document.querySelectorAll('.delete-btn');
-        const expandButtons = document.querySelectorAll('.expand-btn');
-        const saveButton = document.getElementById('saveButton');
-        const pasteSaveButton = document.getElementById('pasteSaveButton');
-        const searchSection = document.querySelector('.search-section');
-
-        // Validate and update copy buttons
-        if (showCopyBtn && showCopyBtn.checked) {
-            copyButtons.forEach(btn => {
-                if (btn) btn.style.display = 'flex';
-            });
-        } else {
-            copyButtons.forEach(btn => {
-                if (btn) btn.style.display = 'none';
-            });
-        }
-
-        // Validate and update delete buttons
-        if (showDeleteBtn && showDeleteBtn.checked) {
-            deleteButtons.forEach(btn => {
-                if (btn) btn.style.display = 'flex';
-            });
-        } else {
-            deleteButtons.forEach(btn => {
-                if (btn) btn.style.display = 'none';
-            });
-        }
-
-        // Validate and update expand buttons
-        if (showExpandBtn && showExpandBtn.checked) {
-            expandButtons.forEach(btn => {
-                if (btn) btn.style.display = 'flex';
-            });
-        } else {
-            expandButtons.forEach(btn => {
-                if (btn) btn.style.display = 'none';
-            });
-        }
-
-        // Validate and update save button
-        if (saveButton && showSaveBtn && showSaveBtn.checked) {
-            saveButton.style.display = 'flex';
-        } else if (saveButton) {
-            saveButton.style.display = 'none';
-        }
-
-        // Validate and update paste save button
-        if (pasteSaveButton && showPasteSaveBtn && showPasteSaveBtn.checked) {
-            pasteSaveButton.style.display = 'flex';
-        } else if (pasteSaveButton) {
-            pasteSaveButton.style.display = 'none';
-        }
-
-        // Validate and update search section
-        if (searchSection && showSearch) {
-            searchSection.style.display = showSearch.checked ? 'block' : 'none';
-        }
-    }
-
-    // Load settings when the popup opens
-    loadSettings();
 
     // Add event listeners for all settings changes
     showCopyBtn.addEventListener('change', function() {
@@ -323,9 +261,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Clear search functionality
-    const clearSearchBtn = document.querySelector('.clear-search');
-    
     // Show/hide clear button based on search input
     searchInput.addEventListener('input', function() {
         clearSearchBtn.style.display = this.value ? 'flex' : 'none';
@@ -339,13 +274,7 @@ document.addEventListener('DOMContentLoaded', function() {
         renderItems();
     });
 
-    // Hide clear button initially
-    clearSearchBtn.style.display = 'none';
-
     // Font size functionality
-    const decreaseFont = document.getElementById('decreaseFont');
-    const increaseFont = document.getElementById('increaseFont');
-    const fontSizeValue = document.getElementById('fontSizeValue');
     const minFontSize = 12;
     const maxFontSize = 20;
     const defaultFontSize = 14;
@@ -402,17 +331,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Reset settings with validation
     resetSettingsBtn.addEventListener('click', function() {
         if (confirm('Are you sure you want to reset all settings to default?')) {
-            const defaultSettings = {
-                showCopyBtn: true,
-                showDeleteBtn: true,
-                showExpandBtn: true,
-                showSaveBtn: true,
-                showPasteSaveBtn: true,
-                showSearch: true,
-                enterToSave: true,
-                doubleClickEdit: true
-            };
-
             const validatedSettings = validateAndApplySettings(defaultSettings);
             
             // Reset font size
@@ -428,6 +346,68 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
+
+    // Update button visibility with validation
+    function updateButtonVisibility() {
+        const copyButtons = document.querySelectorAll('.copy-btn');
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+        const expandButtons = document.querySelectorAll('.expand-btn');
+        const saveButton = document.getElementById('saveButton');
+        const pasteSaveButton = document.getElementById('pasteSaveButton');
+        const searchSection = document.querySelector('.search-section');
+
+        // Validate and update copy buttons
+        if (showCopyBtn && showCopyBtn.checked) {
+            copyButtons.forEach(btn => {
+                if (btn) btn.style.display = 'flex';
+            });
+        } else {
+            copyButtons.forEach(btn => {
+                if (btn) btn.style.display = 'none';
+            });
+        }
+
+        // Validate and update delete buttons
+        if (showDeleteBtn && showDeleteBtn.checked) {
+            deleteButtons.forEach(btn => {
+                if (btn) btn.style.display = 'flex';
+            });
+        } else {
+            deleteButtons.forEach(btn => {
+                if (btn) btn.style.display = 'none';
+            });
+        }
+
+        // Validate and update expand buttons
+        if (showExpandBtn && showExpandBtn.checked) {
+            expandButtons.forEach(btn => {
+                if (btn) btn.style.display = 'flex';
+            });
+        } else {
+            expandButtons.forEach(btn => {
+                if (btn) btn.style.display = 'none';
+            });
+        }
+
+        // Validate and update save button
+        if (saveButton && showSaveBtn && showSaveBtn.checked) {
+            saveButton.style.display = 'flex';
+        } else if (saveButton) {
+            saveButton.style.display = 'none';
+        }
+
+        // Validate and update paste save button
+        if (pasteSaveButton && showPasteSaveBtn && showPasteSaveBtn.checked) {
+            pasteSaveButton.style.display = 'flex';
+        } else if (pasteSaveButton) {
+            pasteSaveButton.style.display = 'none';
+        }
+
+        // Validate and update search section
+        if (searchSection && showSearch) {
+            searchSection.style.display = showSearch.checked ? 'block' : 'none';
+        }
+    }
 
     // Render items list
     function renderItems() {
