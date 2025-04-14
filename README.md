@@ -2,8 +2,7 @@
 
 A Chromium extension that combines the functionality of a notepad and clipboard manager, allowing you to save, organize, and quickly access your text snippets.
 
-![image](https://github.com/user-attachments/assets/940ce142-49d1-494d-8ea2-68d7b01a484d)
-
+![1](https://github.com/user-attachments/assets/56880205-0d0e-4f09-8ea2-84cd99010cbc)
 
 ## Features
 
