@@ -84,7 +84,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Author
 
-👤 **Sumit Lamba**
+👤 **Sumit Kumar Lamba**
 - GitHub: [@akasumitlamba](https://github.com/akasumitlamba)
 
 ## Acknowledgments
