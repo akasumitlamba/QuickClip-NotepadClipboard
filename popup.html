@@ -24,6 +24,14 @@
         <div class="settings-panel" style="display: none;">
             <h3>Settings</h3>
             <div class="settings-options">
+                <div class="font-size-option">
+                    <span>Font Size</span>
+                    <div class="font-size-control">
+                        <button id="decreaseFont" class="font-size-btn" title="Decrease Font Size">-</button>
+                        <span id="fontSizeValue">14px</span>
+                        <button id="increaseFont" class="font-size-btn" title="Increase Font Size">+</button>
+                    </div>
+                </div>
                 <label class="setting-option">
                     <input type="checkbox" id="showCopyBtn">
                     <span>Show Copy Button</span>
@@ -56,14 +64,7 @@
                     <input type="checkbox" id="doubleClickEdit">
                     <span>Double-click to Edit</span>
                 </label>
-                <div class="font-size-option">
-                    <span>Font Size</span>
-                    <div class="font-size-control">
-                        <button id="decreaseFont" class="font-size-btn" title="Decrease Font Size">-</button>
-                        <span id="fontSizeValue">14px</span>
-                        <button id="increaseFont" class="font-size-btn" title="Increase Font Size">+</button>
-                    </div>
-                </div>
+                
             </div>
             <div class="reset-settings">
                 <button id="resetSettings" class="reset-btn">
