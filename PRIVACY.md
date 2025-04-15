@@ -30,8 +30,12 @@ QuickClip is a privacy-focused clipboard manager. We believe in keeping things s
    - Open source code
    - Anyone can verify our privacy claims
 
-## Contact
+## Changes to This Privacy Policy
 
-Questions? Contact us at [your email address or contact method].
+We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page. You are advised to review this Privacy Policy periodically for any changes.
+
+## Contact Us
+
+If you have any questions about this Privacy Policy, please contact us at [your email address or contact method].
 
 That's it! QuickClip is designed to be simple, private, and secure. 
