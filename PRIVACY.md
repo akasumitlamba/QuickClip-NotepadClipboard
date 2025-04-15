@@ -2,18 +2,36 @@
 
 **Last Updated:** 2024
 
-## Our Promise
+## Privacy First
 
-QuickClip is a simple clipboard manager that respects your privacy. Here's what you need to know:
+QuickClip is a privacy-focused clipboard manager. We believe in keeping things simple and secure.
 
-1. **No Data Collection**: We do not collect, store, or share any of your data. Everything you save stays on your device.
+## Key Points
 
-2. **Local Storage Only**: Your saved text snippets and settings are stored only on your computer. We cannot access this data.
+1. **Zero Data Collection**
+   - We don't collect any data
+   - We don't store any data
+   - We don't share any data
+   - Everything stays on your device
 
-3. **No Tracking**: We don't track your usage or collect any statistics.
+2. **Local Storage**
+   - All your text snippets are saved only on your computer
+   - We cannot access your saved data
+   - Your data never leaves your device
 
-4. **No Restrictions**: QuickClip is free to use by anyone, anywhere.
+3. **No Tracking**
+   - No usage statistics
+   - No analytics
+   - No monitoring
 
-5. **Open Source**: Our code is open source, so you can verify our privacy claims.
+4. **Free & Open**
+   - Free to use
+   - No restrictions
+   - Open source code
+   - Anyone can verify our privacy claims
 
-That's it! QuickClip is designed to be simple, private, and secure. If you have any questions, feel free to contact us. 
+## Contact
+
+Questions? Contact us at [your email address or contact method].
+
+That's it! QuickClip is designed to be simple, private, and secure. 
