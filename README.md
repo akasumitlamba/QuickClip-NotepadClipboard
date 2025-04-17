@@ -1,22 +1,22 @@
 # QuickClip - Staging Release
 
-A Chromium extension that combines the functionality of a notepad and clipboard manager, allowing you to save, organize, and quickly access your text snippets.
+A Chromium extension that combines the functionality of a notepad and clipboard manager, allowing you to save, organize, and quickly access your text snippets and images.
 
 ![1](https://github.com/user-attachments/assets/56880205-0d0e-4f09-8ea2-84cd99010cbc) ![2](https://github.com/user-attachments/assets/7555032f-9e2e-45f3-a094-8972dc6adc01)
 
 ![3](https://github.com/user-attachments/assets/fda64349-144f-483d-b334-30ba873ed6ea) ![4](https://github.com/user-attachments/assets/a807b319-0ed6-4df4-83f8-0d2b3e03d5f8)
 
-
-
-
 ## Features
 
 - ✍️ **Text Input**: Write and save text snippets with support for multiline input
-- 📋 **Clipboard Integration**: Paste and save text directly from your clipboard
-- 🔍 **Search Functionality**: Quickly find saved items with instant search
+- 📋 **Clipboard Integration**: Paste and save text and images directly from your clipboard
+- 🔍 **Search Functionality**: 
+  - Quickly find saved text items with instant search
+  - Images are excluded from text search for better performance
+  - Empty search shows all items
 - 🎨 **Theme Support**: Switch between light and dark themes with a single click
 - 📱 **Responsive Design**: Clean and modern interface
-- 💾 **Local Storage**: All your snippets are saved locally
+- 💾 **Local Storage**: All your snippets and images are saved locally
 - 🔄 **Copy & Delete**: Easy management of saved items
 - ⚙️ **Customizable Settings**: 
   - Toggle visibility of action buttons (Copy, Delete, Expand, Save, Paste & Save)
@@ -29,6 +29,11 @@ A Chromium extension that combines the functionality of a notepad and clipboard 
   - Press Enter to save (configurable)
   - Expand/collapse long text items
   - Copy items to clipboard with one click
+- 🖼️ **Image Support**:
+  - Save images from clipboard
+  - View images in full size
+  - Expand/collapse image previews
+  - Images are excluded from text search for better performance
 - 🎯 **User Experience**:
   - Smooth animations and transitions
   - New & updated icons
@@ -47,13 +52,14 @@ A Chromium extension that combines the functionality of a notepad and clipboard 
 1. Click the QuickClip icon in your Chrome toolbar to open the popup(make sure you pin it)
 2. Enter text in the text area or use the "Paste & Save" button to save clipboard content
 3. Use Shift+Enter for new lines
-4. Search through your saved items using the search bar
+4. Search through your saved text items using the search bar (images are excluded from text search)
 5. Click the theme toggle to switch between light and dark themes
 6. Use the copy and delete buttons to manage your saved items
 7. Double-click any saved item to edit it
 8. Click the settings button to customize the extension to your preferences
 9. Use the font size controls to adjust text size
-10. Expand/collapse long text items for better readability
+10. Expand/collapse long text items and images for better readability
+11. Click on images to view them in full size
 
 ## Development
 
@@ -71,7 +77,10 @@ QuickClip-NotepadClipboard/
 ├── popup.html         # Main popup interface
 ├── styles.css         # Styling for the popup
 ├── popup.js           # Main functionality
-└── README.md          # Documentation
+├── icons/             # Extension icons
+├── README.md          # Documentation
+├── PRIVACY.md         # Privacy policy
+└── LICENSE            # License information
 ```
 
 ## Contributing

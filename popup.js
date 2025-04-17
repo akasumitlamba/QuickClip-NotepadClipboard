@@ -69,6 +69,16 @@ document.addEventListener('DOMContentLoaded', function() {
         saveItem();
     });
 
+    // Function to check if text is a URL
+    function isURL(text) {
+        try {
+            new URL(text);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
     // Function to save item
     function saveItem() {
         const text = textInput.value.trim();
@@ -76,7 +86,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const newItem = {
                 id: Date.now(),
                 text: text,
-                timestamp: new Date().toISOString()
+                timestamp: new Date().toISOString(),
+                isLink: isURL(text)
             };
             savedItems.unshift(newItem);
             chrome.storage.local.set({ savedItems: savedItems }, function() {
@@ -89,6 +100,35 @@ document.addEventListener('DOMContentLoaded', function() {
     // Paste and Save functionality
     pasteSaveButton.addEventListener('click', async function() {
         try {
+            // First try to read image data
+            const clipboardItems = await navigator.clipboard.read();
+            for (const clipboardItem of clipboardItems) {
+                for (const type of clipboardItem.types) {
+                    if (type.startsWith('image/')) {
+                        const blob = await clipboardItem.getType(type);
+                        // Convert blob to base64
+                        const reader = new FileReader();
+                        reader.onload = function() {
+                            const base64data = reader.result;
+                            const newItem = {
+                                id: Date.now(),
+                                text: base64data,
+                                timestamp: new Date().toISOString(),
+                                isImage: true,
+                                mimeType: type
+                            };
+                            savedItems.unshift(newItem);
+                            chrome.storage.local.set({ savedItems: savedItems }, function() {
+                                renderItems();
+                            });
+                        };
+                        reader.readAsDataURL(blob);
+                        return; // Exit after handling the first image
+                    }
+                }
+            }
+            
+            // If no image found, try to read text
             const clipboardText = await navigator.clipboard.readText();
             if (clipboardText.trim()) {
                 textInput.value = clipboardText;
@@ -96,6 +136,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } catch (err) {
             console.error('Failed to read clipboard:', err);
+            // Fallback to text if image reading fails
+            try {
+                const clipboardText = await navigator.clipboard.readText();
+                if (clipboardText.trim()) {
+                    textInput.value = clipboardText;
+                    saveButton.click();
+                }
+            } catch (err) {
+                console.error('Failed to read clipboard text:', err);
+            }
         }
     });
 
@@ -420,129 +470,495 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Function to edit an item
+    function editItem(contentElement, item) {
+        // Don't allow editing of images
+        if (item.isImage) return;
+
+        const textarea = document.createElement('textarea');
+        textarea.value = item.text;
+        textarea.className = 'edit-textarea';
+        textarea.style.width = '100%';
+        
+        // Set initial height based on content
+        const lineHeight = parseInt(getComputedStyle(contentElement).lineHeight);
+        const lines = item.text.split('\n').length;
+        const initialHeight = Math.min(Math.max(lines * lineHeight, 60), 400);
+        textarea.style.height = initialHeight + 'px';
+        
+        // Store the parent element reference
+        const parentElement = contentElement.parentElement;
+        
+        // Replace the content element with textarea
+        parentElement.replaceChild(textarea, contentElement);
+        textarea.focus();
+        
+        // Place cursor at the end of the text
+        textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+        
+        function saveEdit() {
+            const newText = textarea.value.trim();
+            if (newText && newText !== item.text) {
+                item.text = newText;
+                item.isLink = isURL(newText);
+                chrome.storage.local.set({ savedItems: savedItems }, function() {
+                    // Use setTimeout to ensure DOM updates happen after the current event loop
+                    setTimeout(() => {
+                        renderItems();
+                    }, 0);
+                });
+            } else {
+                // Use setTimeout to ensure DOM updates happen after the current event loop
+                setTimeout(() => {
+                    renderItems();
+                }, 0);
+            }
+        }
+        
+        // Use a flag to prevent multiple saves
+        let isSaving = false;
+        
+        textarea.addEventListener('blur', function() {
+            if (!isSaving) {
+                isSaving = true;
+                saveEdit();
+            }
+        });
+        
+        textarea.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                if (!isSaving) {
+                    isSaving = true;
+                    saveEdit();
+                }
+            }
+        });
+    }
+
+    // Create image modal
+    const imageModal = document.createElement('div');
+    imageModal.className = 'image-modal';
+    document.body.appendChild(imageModal);
+
+    // Function to show full-size image
+    function showFullSizeImage(src) {
+        // Create wrapper for better drag control
+        const wrapper = document.createElement('div');
+        wrapper.className = 'image-modal-wrapper';
+        
+        const modalContent = document.createElement('img');
+        modalContent.className = 'image-modal-content';
+        modalContent.src = src;
+        
+        // Create zoom controls
+        const zoomControls = document.createElement('div');
+        zoomControls.className = 'zoom-controls';
+        
+        const zoomInBtn = document.createElement('button');
+        zoomInBtn.className = 'zoom-btn';
+        zoomInBtn.title = 'Zoom In (Page Up)';
+        zoomInBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14zM12 10h-2v2H9v-2H7V9h2V7h1v2h2v1z" fill="white"/>
+            </svg>
+        `;
+        
+        const zoomOutBtn = document.createElement('button');
+        zoomOutBtn.className = 'zoom-btn';
+        zoomOutBtn.title = 'Zoom Out (Page Down)';
+        zoomOutBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14zM7 9h5v1H7z" fill="white"/>
+            </svg>
+        `;
+        
+        // Create close button
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'close-btn';
+        closeBtn.title = 'Close (Esc)';
+        closeBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="white"/>
+            </svg>
+        `;
+        
+        // Create zoom level indicator
+        const zoomLevelIndicator = document.createElement('div');
+        zoomLevelIndicator.className = 'zoom-level';
+        
+        // Create navigation indicator
+        const navIndicator = document.createElement('div');
+        navIndicator.className = 'nav-indicator';
+        navIndicator.innerHTML = `
+            <div class="key-group arrows">
+                <div class="key up">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
+                    </svg>
+                </div>
+                <div class="key left">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                    </svg>
+                </div>
+                <div class="key down">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
+                    </svg>
+                </div>
+                <div class="key right">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/>
+                    </svg>
+                </div>
+            </div>
+            <span class="text">Use arrow keys to navigate</span>
+        `;
+        
+        // Clear previous content and add new elements
+        imageModal.innerHTML = '';
+        wrapper.appendChild(modalContent);
+        imageModal.appendChild(wrapper);
+        imageModal.appendChild(zoomControls);
+        imageModal.appendChild(closeBtn);
+        imageModal.appendChild(zoomLevelIndicator);
+        imageModal.appendChild(navIndicator);
+        zoomControls.appendChild(zoomInBtn);
+        zoomControls.appendChild(zoomOutBtn);
+        
+        // Show modal
+        imageModal.classList.add('active');
+        
+        // Add zoom functionality
+        let zoomLevel = 0;
+        let translateX = 0;
+        let translateY = 0;
+        const moveStep = 50; // pixels to move per key press
+        let hasShownIndicator = false; // Track if indicator has been shown
+        
+        // Calculate image boundaries
+        function getImageBoundaries() {
+            const imgRect = modalContent.getBoundingClientRect();
+            const wrapperRect = wrapper.getBoundingClientRect();
+            const scale = zoomLevel === 0 ? 1 : (zoomLevel * 0.5 + 1);
+            const imgWidth = imgRect.width * scale;
+            const imgHeight = imgRect.height * scale;
+            
+            return {
+                left: Math.min(0, (wrapperRect.width - imgWidth) / 2),
+                right: Math.max(0, (wrapperRect.width + imgWidth) / 2 - wrapperRect.width),
+                top: Math.min(0, (wrapperRect.height - imgHeight) / 2),
+                bottom: Math.max(0, (wrapperRect.height + imgHeight) / 2 - wrapperRect.height)
+            };
+        }
+        
+        function updateZoom() {
+            // Remove all zoom classes and reset position
+            modalContent.classList.remove('zoomed-1', 'zoomed-2', 'zoomed-3', 'zoomed-4', 'zoomed-5');
+            translateX = 0;
+            translateY = 0;
+            wrapper.style.transform = '';
+            
+            // Add appropriate zoom class
+            if (zoomLevel > 0) {
+                modalContent.classList.add(`zoomed-${zoomLevel}`);
+            }
+            
+            // Update zoom level indicator
+            zoomLevelIndicator.textContent = `Zoom: ${zoomLevel === 0 ? '1x' : `${zoomLevel * 0.5 + 1}x`}`;
+            
+            // Show navigation indicator only once when zooming in
+            if (zoomLevel > 0 && !hasShownIndicator) {
+                hasShownIndicator = true;
+                navIndicator.style.display = 'flex';
+                navIndicator.classList.remove('hidden');
+                
+                // Auto-hide after 3 seconds
+                clearTimeout(navIndicator.hideTimeout);
+                navIndicator.hideTimeout = setTimeout(() => {
+                    navIndicator.classList.add('hidden');
+                }, 3000);
+            } else if (zoomLevel === 0) {
+                hasShownIndicator = false;
+                navIndicator.style.display = 'none';
+            }
+        }
+        
+        // Zoom in button
+        zoomInBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (zoomLevel < 5) {
+                zoomLevel++;
+                updateZoom();
+            }
+        });
+        
+        // Zoom out button
+        zoomOutBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (zoomLevel > 0) {
+                zoomLevel--;
+                updateZoom();
+            }
+        });
+        
+        // Close button
+        closeBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            imageModal.classList.remove('active');
+        });
+        
+        // Keyboard controls
+        function handleKeyDown(e) {
+            if (!imageModal.classList.contains('active')) return;
+            
+            switch(e.key) {
+                case 'PageUp':
+                    e.preventDefault();
+                    if (zoomLevel < 5) {
+                        zoomLevel++;
+                        updateZoom();
+                    }
+                    break;
+                case 'PageDown':
+                    e.preventDefault();
+                    if (zoomLevel > 0) {
+                        zoomLevel--;
+                        updateZoom();
+                    }
+                    break;
+                case 'ArrowLeft':
+                case 'ArrowRight':
+                case 'ArrowUp':
+                case 'ArrowDown':
+                    if (zoomLevel > 0) {
+                        e.preventDefault();
+                        // Handle movement
+                        const boundaries = getImageBoundaries();
+                        let newX = translateX;
+                        let newY = translateY;
+                        
+                        switch(e.key) {
+                            case 'ArrowLeft':
+                                newX = translateX + moveStep;
+                                if (newX <= boundaries.right) {
+                                    translateX = newX;
+                                }
+                                break;
+                            case 'ArrowRight':
+                                newX = translateX - moveStep;
+                                if (newX >= boundaries.left) {
+                                    translateX = newX;
+                                }
+                                break;
+                            case 'ArrowUp':
+                                newY = translateY + moveStep;
+                                if (newY <= boundaries.bottom) {
+                                    translateY = newY;
+                                }
+                                break;
+                            case 'ArrowDown':
+                                newY = translateY - moveStep;
+                                if (newY >= boundaries.top) {
+                                    translateY = newY;
+                                }
+                                break;
+                        }
+                        
+                        wrapper.style.transform = `translate(${translateX}px, ${translateY}px)`;
+                    }
+                    break;
+                case 'Escape':
+                    imageModal.classList.remove('active');
+                    break;
+            }
+        }
+        
+        document.addEventListener('keydown', handleKeyDown);
+        
+        // Clean up event listener when modal is closed
+        imageModal.addEventListener('click', function closeModal(e) {
+            if (e.target === imageModal) {
+                imageModal.classList.remove('active');
+                document.removeEventListener('keydown', handleKeyDown);
+                imageModal.removeEventListener('click', closeModal);
+            }
+        });
+        
+        // Initial zoom level update
+        updateZoom();
+    }
+
     // Render items list
     function renderItems() {
         itemsList.innerHTML = '';
-        const searchTerm = searchInput.value.toLowerCase();
+        const searchTerm = searchInput.value.toLowerCase().trim();
         
-        const filteredItems = savedItems.filter(item => 
-            item.text.toLowerCase().includes(searchTerm)
-        );
+        // If search is empty, show all items
+        if (!searchTerm) {
+            savedItems.forEach(item => createItemElement(item));
+            return;
+        }
+        
+        // Filter items based on search term
+        const filteredItems = savedItems.filter(item => {
+            // Always exclude images from text search
+            if (item.isImage) {
+                return false;
+            }
+            return item.text.toLowerCase().includes(searchTerm);
+        });
 
-        filteredItems.forEach(item => {
-            const itemElement = document.createElement('div');
-            itemElement.className = 'saved-item';
+        // Render filtered items
+        filteredItems.forEach(item => createItemElement(item));
+    }
+
+    function createItemElement(item) {
+        const itemElement = document.createElement('div');
+        itemElement.className = 'saved-item';
+        itemElement.dataset.id = item.id;
+        
+        const contentElement = document.createElement('div');
+        contentElement.className = 'saved-item-content';
+        
+        if (item.isImage) {
+            const imgContainer = document.createElement('div');
+            imgContainer.className = 'image-container';
             
-            const contentElement = document.createElement('div');
-            contentElement.className = 'saved-item-content';
+            const img = document.createElement('img');
+            img.src = item.text;
+            img.alt = 'Saved image';
+            img.className = 'saved-image';
+            
+            // Add click handler to show full-size image
+            imgContainer.addEventListener('click', function() {
+                showFullSizeImage(item.text);
+            });
+            
+            imgContainer.appendChild(img);
+            contentElement.appendChild(imgContainer);
+        } else {
             contentElement.textContent = item.text;
-            
-            const buttonContainer = document.createElement('div');
-            buttonContainer.className = 'button-container';
-            
-            // Add expand button if enabled and text is long enough
-            if (showExpandBtn.checked && item.text.length > 100) {
-                const expandButton = document.createElement('button');
-                expandButton.className = 'expand-btn';
-                expandButton.innerHTML = '<svg class="icon" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>';
-                expandButton.title = 'Expand/Collapse';
-                expandButton.style.display = 'flex';
-                
-                expandButton.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    contentElement.classList.toggle('expanded');
-                    expandButton.innerHTML = contentElement.classList.contains('expanded') 
-                        ? '<svg class="icon" viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z"/></svg>'
-                        : '<svg class="icon" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>';
-                });
-                
-                buttonContainer.appendChild(expandButton);
+            if (item.isLink) {
+                contentElement.classList.add('link');
             }
-            
-            // Add copy button if enabled
-            if (showCopyBtn.checked) {
-                const copyButton = document.createElement('button');
-                copyButton.className = 'copy-btn';
-                copyButton.innerHTML = '<svg class="icon" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>';
-                copyButton.title = 'Copy';
-                copyButton.style.display = 'flex';
-                buttonContainer.appendChild(copyButton);
-
-                copyButton.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    navigator.clipboard.writeText(item.text).then(() => {
-                        const originalIcon = copyButton.innerHTML;
-                        copyButton.innerHTML = '<svg class="icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>';
-                        setTimeout(() => {
-                            copyButton.innerHTML = originalIcon;
-                        }, 2000);
-                    });
-                });
-            }
-            
-            // Add delete button if enabled
-            if (showDeleteBtn.checked) {
-                const deleteButton = document.createElement('button');
-                deleteButton.className = 'delete-btn';
-                deleteButton.innerHTML = '<svg class="icon" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>';
-                deleteButton.title = 'Delete';
-                deleteButton.style.display = 'flex';
-                buttonContainer.appendChild(deleteButton);
-
-                deleteButton.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    savedItems = savedItems.filter(i => i.id !== item.id);
-                    chrome.storage.local.set({ savedItems: savedItems }, function() {
-                        renderItems();
-                    });
-                });
-            }
-            
-            itemElement.appendChild(contentElement);
-            itemElement.appendChild(buttonContainer);
-            
+        }
+        
+        // Add click handler for links
+        if (item.isLink) {
             if (doubleClickEdit.checked) {
-                contentElement.addEventListener('dblclick', function() {
-                    const textarea = document.createElement('textarea');
-                    textarea.value = item.text;
-                    textarea.className = 'edit-textarea';
-                    textarea.style.width = '100%';
-                    
-                    // Set initial height based on content
-                    const lineHeight = parseInt(getComputedStyle(contentElement).lineHeight);
-                    const lines = item.text.split('\n').length;
-                    const initialHeight = Math.min(Math.max(lines * lineHeight, 60), 400);
-                    textarea.style.height = initialHeight + 'px';
-                    
-                    contentElement.replaceWith(textarea);
-                    textarea.focus();
-                    
-                    // Place cursor at the end of the text
-                    textarea.setSelectionRange(textarea.value.length, textarea.value.length);
-                    
-                    function saveEdit() {
-                        const newText = textarea.value.trim();
-                        if (newText && newText !== item.text) {
-                            item.text = newText;
-                            chrome.storage.local.set({ savedItems: savedItems }, function() {
-                                renderItems();
-                            });
-                        } else {
-                            renderItems();
-                        }
+                let clickTimer;
+                contentElement.addEventListener('click', function(e) {
+                    // Don't open link if clicking on expand button or its parent
+                    if (e.target.closest('.expand-btn') || e.target.closest('.button-container')) {
+                        return;
                     }
                     
-                    textarea.addEventListener('blur', saveEdit);
-                    textarea.addEventListener('keydown', function(e) {
-                        if (e.key === 'Enter' && !e.shiftKey) {
-                            e.preventDefault();
-                            saveEdit();
-                        }
-                    });
+                    if (e.detail === 1) { // Single click
+                        clickTimer = setTimeout(() => {
+                            if (!this.classList.contains('editing')) {
+                                window.open(item.text, '_blank');
+                            }
+                        }, 250); // Wait to see if it's a double click
+                    }
+                });
+
+                contentElement.addEventListener('dblclick', function(e) {
+                    // Don't edit if clicking on expand button or its parent
+                    if (e.target.closest('.expand-btn') || e.target.closest('.button-container')) {
+                        return;
+                    }
+                    clearTimeout(clickTimer); // Cancel the single click action
+                    editItem(this, item);
+                });
+            } else {
+                // When double-click editing is off, open link immediately on click
+                contentElement.addEventListener('click', function(e) {
+                    // Don't open link if clicking on expand button or its parent
+                    if (e.target.closest('.expand-btn') || e.target.closest('.button-container')) {
+                        return;
+                    }
+                    if (!this.classList.contains('editing')) {
+                        window.open(item.text, '_blank');
+                    }
                 });
             }
+        } else if (doubleClickEdit.checked && !item.isImage) {
+            contentElement.addEventListener('dblclick', function(e) {
+                // Don't edit if clicking on expand button or its parent
+                if (e.target.closest('.expand-btn') || e.target.closest('.button-container')) {
+                    return;
+                }
+                editItem(this, item);
+            });
+        }
+        
+        const buttonContainer = document.createElement('div');
+        buttonContainer.className = 'button-container';
+        
+        // Add expand button if enabled and content is expandable
+        if (showExpandBtn.checked && (item.text.length > 100 || item.isImage || item.isLink)) {
+            const expandButton = document.createElement('button');
+            expandButton.className = 'expand-btn';
+            expandButton.innerHTML = '<svg class="icon" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>';
+            expandButton.title = 'Expand/Collapse';
+            expandButton.style.display = 'flex';
             
-            itemsList.appendChild(itemElement);
-        });
+            expandButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                contentElement.classList.toggle('expanded');
+                expandButton.innerHTML = contentElement.classList.contains('expanded') 
+                    ? '<svg class="icon" viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z"/></svg>'
+                    : '<svg class="icon" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>';
+            });
+            
+            buttonContainer.appendChild(expandButton);
+        }
+        
+        // Add copy button if enabled
+        if (showCopyBtn.checked) {
+            const copyButton = document.createElement('button');
+            copyButton.className = 'copy-btn';
+            copyButton.innerHTML = '<svg class="icon" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>';
+            copyButton.title = 'Copy';
+            copyButton.style.display = 'flex';
+            buttonContainer.appendChild(copyButton);
+
+            copyButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                navigator.clipboard.writeText(item.text).then(() => {
+                    const originalIcon = copyButton.innerHTML;
+                    copyButton.innerHTML = '<svg class="icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>';
+                    setTimeout(() => {
+                        copyButton.innerHTML = originalIcon;
+                    }, 2000);
+                });
+            });
+        }
+        
+        // Add delete button if enabled
+        if (showDeleteBtn.checked) {
+            const deleteButton = document.createElement('button');
+            deleteButton.className = 'delete-btn';
+            deleteButton.innerHTML = '<svg class="icon" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>';
+            deleteButton.title = 'Delete';
+            deleteButton.style.display = 'flex';
+            buttonContainer.appendChild(deleteButton);
+
+            deleteButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                savedItems = savedItems.filter(i => i.id !== item.id);
+                chrome.storage.local.set({ savedItems: savedItems }, function() {
+                    renderItems();
+                });
+            });
+        }
+        
+        itemElement.appendChild(contentElement);
+        itemElement.appendChild(buttonContainer);
+        
+        itemsList.appendChild(itemElement);
     }
 }); 
