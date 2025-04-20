@@ -7,9 +7,12 @@ A Chromium extension that combines the functionality of a notepad and clipboard 
 
 ## Get Extension
 
-[Get For MS EDGE![image](https://github.com/user-attachments/assets/d035496a-044b-4241-92c0-e1de4e017d16)
+[Get For MS EDGE ![image](https://github.com/user-attachments/assets/d035496a-044b-4241-92c0-e1de4e017d16)
  ](https://microsoftedge.microsoft.com/addons/detail/icffibdmcbmfnpbjeojmlpechnebmoni
 )
+
+Chrome ![image](https://github.com/user-attachments/assets/5fcac80e-3a0c-43c3-9d92-0582d401be1f) - Coming Soon
+
 
 ## Features
 
