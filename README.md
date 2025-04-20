@@ -73,6 +73,10 @@ QuickClip-NotepadClipboard/
 └── README.md          # Documentation
 ```
 
+## Know What we are cooking next
+
+[Experimental QuickClip](https://github.com/akasumitlamba/QuickClip-NotepadClipboard/tree/experimental)
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
