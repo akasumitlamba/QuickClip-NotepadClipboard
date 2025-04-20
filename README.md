@@ -7,7 +7,7 @@ A Chromium extension that combines the functionality of a notepad and clipboard 
 
 ## Get Extension
 
-[Get For MS EDGE ![image](https://github.com/user-attachments/assets/d035496a-044b-4241-92c0-e1de4e017d16)
+[EDGE ![image](https://github.com/user-attachments/assets/d035496a-044b-4241-92c0-e1de4e017d16)
  ](https://microsoftedge.microsoft.com/addons/detail/icffibdmcbmfnpbjeojmlpechnebmoni
 )
 
@@ -77,7 +77,8 @@ QuickClip-NotepadClipboard/
 ├── styles.css         # Styling for the popup
 ├── popup.js           # Main functionality
 ├── Icons              # Icon Folder
-├── Privacy.md         # Privacy Policy
+├── PRIVACY.md         # Privacy Policy
+├── LICENSE            # LICENSE
 └── README.md          # Documentation
 
 ```
