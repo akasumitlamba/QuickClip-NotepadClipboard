@@ -5,7 +5,7 @@ A Chromium extension that combines the functionality of a notepad and clipboard 
 
 ![vibes](https://github.com/user-attachments/assets/cb530e4c-9db2-45eb-bd75-b05f97076da8)
 
-##Get extension on edge
+## Get extension on edge
 https://microsoftedge.microsoft.com/addons/detail/icffibdmcbmfnpbjeojmlpechnebmoni
 
 ## Features
