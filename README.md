@@ -83,7 +83,7 @@ QuickClip-NotepadClipboard/
 
 ```
 
-## Know What we are cooking next
+## Experimental Version
 
 [Experimental QuickClip](https://github.com/akasumitlamba/QuickClip-NotepadClipboard/tree/experimental)
 
