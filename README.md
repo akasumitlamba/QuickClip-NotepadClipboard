@@ -111,22 +111,6 @@ QuickClip-NotepadClipboard/
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## License
-
-This project is licensed under a modified MIT License with the following additional conditions:
-
-1. You are free to:
-   - Use the application for personal or commercial purposes
-   - Modify the source code
-   - Distribute the modified source code
-   - Create derivative works
-
-2. You are NOT permitted to:
-   - Publish or distribute this extension or any derivative works on any browser extension stores (including but not limited to Chrome Web Store, Microsoft Edge Add-ons, Firefox Add-ons, etc.)
-   - Use the original extension name "QuickClip" for any derivative works
-
-All other MIT License terms apply. See the [LICENSE](LICENSE) file for the complete license text.
-
 ## Author
 
 👤 **Sumit Kumar Lamba**
