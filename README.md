@@ -5,17 +5,27 @@ A Chromium extension that combines the functionality of a notepad and clipboard 
 
 ![vibes](https://github.com/user-attachments/assets/cb530e4c-9db2-45eb-bd75-b05f97076da8)
 
-## Get Extension
+## Recent Updates & New Features
 
-[EDGE ![image](https://github.com/user-attachments/assets/d035496a-044b-4241-92c0-e1de4e017d16)
- ](https://microsoftedge.microsoft.com/addons/detail/icffibdmcbmfnpbjeojmlpechnebmoni
-)
+### Version 1.2
+- 🔗 **Smart Hyperlink Support**:
+  - Automatic URL detection and highlighting
+  - Click to open links in new tabs
+  - Double-click to edit link text
+  - Support for various URL formats (http://, https://, www.)
+- 📏 **Improved Text Handling**:
+  - Better text alignment and formatting
+  - Inline hyperlinks with text
+  - Smarter expand/collapse for long content
+  - Enhanced word wrapping for URLs
 
-[Chrome ![image](https://github.com/user-attachments/assets/5fcac80e-3a0c-43c3-9d92-0582d401be1f) ](https://chromewebstore.google.com/detail/mjdfflpebcmmpipdeeianpjfolmhkmna?utm_source=item-share-cb)
+## All Features
 
-
-## Features
-
+- 🔗 **Hyperlink Management**:
+  - Automatic URL detection and formatting
+  - Click to open in new tab
+  - Double-click to edit
+  - Support for multiple URL formats
 - ✍️ **Text Input**: Write and save text snippets with support for multiline input
 - 📋 **Clipboard Integration**: Paste and save text directly from your clipboard
 - 🔍 **Search Functionality**: Quickly find saved items with instant search
@@ -40,6 +50,14 @@ A Chromium extension that combines the functionality of a notepad and clipboard 
   - Responsive layout that adapts to your needs
   - Action selection
 
+## Get Extension
+
+[EDGE ![image](https://github.com/user-attachments/assets/d035496a-044b-4241-92c0-e1de4e017d16)
+ ](https://microsoftedge.microsoft.com/addons/detail/icffibdmcbmfnpbjeojmlpechnebmoni
+)
+
+[Chrome ![image](https://github.com/user-attachments/assets/5fcac80e-3a0c-43c3-9d92-0582d401be1f) ](https://chromewebstore.google.com/detail/mjdfflpebcmmpipdeeianpjfolmhkmna?utm_source=item-share-cb)
+
 ## Installation
 
 1. Clone this repository or download the ZIP file & extract it.
@@ -59,6 +77,8 @@ A Chromium extension that combines the functionality of a notepad and clipboard 
 8. Click the settings button to customize the extension to your preferences
 9. Use the font size controls to adjust text size
 10. Expand/collapse long text items for better readability
+11. Click on hyperlinks to open them in new tabs
+12. Double-click hyperlinks to edit their text
 
 ## Development
 
@@ -93,7 +113,19 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under a modified MIT License with the following additional conditions:
+
+1. You are free to:
+   - Use the application for personal or commercial purposes
+   - Modify the source code
+   - Distribute the modified source code
+   - Create derivative works
+
+2. You are NOT permitted to:
+   - Publish or distribute this extension or any derivative works on any browser extension stores (including but not limited to Chrome Web Store, Microsoft Edge Add-ons, Firefox Add-ons, etc.)
+   - Use the original extension name "QuickClip" for any derivative works
+
+All other MIT License terms apply. See the [LICENSE](LICENSE) file for the complete license text.
 
 ## Author
 
