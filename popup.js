@@ -69,6 +69,17 @@ document.addEventListener('DOMContentLoaded', function() {
         saveItem();
     });
 
+    // Function to detect URLs in text
+    function detectUrls(text) {
+        // Improved URL regex that handles www, http, https, and protocol-less URLs
+        const urlRegex = /(?:https?:\/\/|www\.)[^\s<]+[^<.,:;"')\]\s]/g;
+        return text.replace(urlRegex, function(url) {
+            // Add https:// if the URL starts with www
+            const fullUrl = url.startsWith('www.') ? 'https://' + url : url;
+            return `<a href="${fullUrl}" class="hyperlink" target="_blank">${url}</a>`;
+        });
+    }
+
     // Function to save item
     function saveItem() {
         const text = textInput.value.trim();
@@ -91,8 +102,15 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             const clipboardText = await navigator.clipboard.readText();
             if (clipboardText.trim()) {
-                textInput.value = clipboardText;
-                saveButton.click();
+                const newItem = {
+                    id: Date.now(),
+                    text: clipboardText,
+                    timestamp: new Date().toISOString()
+                };
+                savedItems.unshift(newItem);
+                chrome.storage.local.set({ savedItems: savedItems }, function() {
+                    renderItems();
+                });
             }
         } catch (err) {
             console.error('Failed to read clipboard:', err);
@@ -167,12 +185,9 @@ document.addEventListener('DOMContentLoaded', function() {
         return validatedSettings;
     }
 
-    // Function to update placeholder text based on Enter to Save setting
+    // Function to update placeholder text
     function updatePlaceholderText() {
-        const placeholder = enterToSave.checked 
-            ? "Enter text to save... (Enter to save, Shift+Enter for new line)"
-            : "Enter text to save... (Shift+Enter for new line)";
-        textInput.placeholder = placeholder;
+        textInput.placeholder = "Enter text here...";
     }
 
     // Load settings with validation
@@ -435,13 +450,13 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const contentElement = document.createElement('div');
             contentElement.className = 'saved-item-content';
-            contentElement.textContent = item.text;
+            contentElement.innerHTML = detectUrls(item.text);
             
             const buttonContainer = document.createElement('div');
             buttonContainer.className = 'button-container';
             
-            // Add expand button if enabled and text is long enough
-            if (showExpandBtn.checked && item.text.length > 100) {
+            // Add expand button if enabled and content is long enough
+            if (showExpandBtn.checked && (item.text.length > 100 || item.text.includes('http'))) {
                 const expandButton = document.createElement('button');
                 expandButton.className = 'expand-btn';
                 expandButton.innerHTML = '<svg class="icon" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>';
@@ -501,8 +516,47 @@ document.addEventListener('DOMContentLoaded', function() {
             itemElement.appendChild(contentElement);
             itemElement.appendChild(buttonContainer);
             
+            // Handle hyperlink clicks and double-clicks
             if (doubleClickEdit.checked) {
-                contentElement.addEventListener('dblclick', function() {
+                let clickTimer;
+                
+                // Add click handler to the content element
+                contentElement.addEventListener('click', function(e) {
+                    // Don't handle clicks on buttons
+                    if (e.target.closest('.button-container')) {
+                        return;
+                    }
+
+                    const link = e.target.closest('a');
+                    if (link) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        if (e.detail === 1) { // Single click
+                            clickTimer = setTimeout(() => {
+                                if (!this.classList.contains('editing')) {
+                                    chrome.tabs.create({ url: link.href });
+                                }
+                            }, 250);
+                        }
+                    }
+                });
+
+                // Add double-click handler for the entire content
+                contentElement.addEventListener('dblclick', function(e) {
+                    // Don't handle double-clicks on buttons
+                    if (e.target.closest('.button-container')) {
+                        return;
+                    }
+
+                    // If clicking on a link, prevent default behavior
+                    const link = e.target.closest('a');
+                    if (link) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        clearTimeout(clickTimer);
+                    }
+                    
                     const textarea = document.createElement('textarea');
                     textarea.value = item.text;
                     textarea.className = 'edit-textarea';
@@ -539,6 +593,16 @@ document.addEventListener('DOMContentLoaded', function() {
                             saveEdit();
                         }
                     });
+                });
+            } else {
+                // When double-click editing is off, only handle link clicks
+                contentElement.addEventListener('click', function(e) {
+                    const link = e.target.closest('a');
+                    if (link) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        chrome.tabs.create({ url: link.href });
+                    }
                 });
             }
             
