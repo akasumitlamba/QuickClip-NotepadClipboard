@@ -8,7 +8,7 @@ A Chromium extension that combines the functionality of a notepad and clipboard 
 
 ## Important message ⚠️ Update: V1.3 Delayed
 
-The release of V1.3 has been postponed to end of may due to V1.2.1 update, which delivers significant Quality-of-Life improvements, ensuring a more secure and seamless experience.
+The release of V1.3 has been postponed to end of may due to V1.2.1 update, which delivers significant Quality-of-Life improvements, ensuring a more seamless experience.
 
 ## Recent Updates & New Features
 
