@@ -10,7 +10,7 @@ A Chromium extension that combines the functionality of a notepad and clipboard 
 
 The release of V1.3 has been postponed to end of may due to V1.2.1 update, which delivers significant Quality-of-Life improvements, ensuring a more seamless experience.
 
-## Recent Updates & New Features
+## New Release
 
 ### Version 1.2.1 (Quality-Of-Life Update)
 - ✨ **Recover Deleted Items**: Accidentally deleted a snippet? Use the "Recover" button (available for 10 seconds) to get it back in its original position.
