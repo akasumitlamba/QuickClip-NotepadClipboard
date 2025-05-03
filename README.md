@@ -2,7 +2,7 @@
 
 ## Important message ⚠️ Update: V1.3 Delayed
 
-The release of V1.3 has been postponed to end of may due to the critical V1.2.5 update, which delivers an essential security patch to safeguard user data. Additionally, this update introduces significant quality-of-life improvements, ensuring a more secure and seamless experience.
+The release of V1.3 has been postponed to end of may due to V1.2.5 update, which delivers significant quality-of-life improvements, ensuring a more secure and seamless experience.
 
 # QuickClip - Notepad Clipboard
 
