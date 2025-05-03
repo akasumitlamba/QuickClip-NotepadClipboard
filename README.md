@@ -1,278 +1,12 @@
-# QuickClip - Clipboard and Notepad Manager
+## Important message ⚠️ Update: V1.3 Delayed
 
-## Overview
-QuickClip is a desktop application that helps users manage their text snippets and clipboard content. It provides a simple, efficient way to save, organize, and access frequently used text content.
+The release of V1.3 has been postponed to end of may due to V1.2.1 update, which delivers significant quality-of-life improvements, ensuring a more secure and seamless experience.
 
-## Core Features
+# QuickClip - Notepad Clipboard V1.2.1
 
-### 1. Text Management
-- **Save Text Snippets**: Users can save any text content with automatic timestamp
-- **Edit Saved Items**: Modify existing saved items
-- **Delete Items**: Remove unwanted items
-- **Search Functionality**: Find items using text search
-- **Copy to Clipboard**: One-click copy of saved items
-- **Expand/Collapse**: Toggle item visibility for better organization
-- **Hyperlink Detection**: Automatic detection and formatting of URLs in text
+A Chromium extension that combines the functionality of a notepad and clipboard manager, allowing you to save, organize, and quickly access your text snippets.
 
-### 2. Clipboard Integration
-- **Paste & Save**: Directly save content from clipboard
-- **One-Click Copy**: Copy items back to clipboard
-- **Clipboard History**: Track recently copied items
-
-### 3. User Interface
-- **Modern Design**: Clean, intuitive interface
-- **Theme Support**: Light and dark themes
-- **Customizable Font Size**: Adjust text size for better readability
-- **Responsive Layout**: Adapts to different window sizes
-- **Search Bar**: Quick filtering of saved items
-- **Settings Panel**: Customize application behavior
-
-## User Interface Layout
-
-### Main Window
-1. **Header Section**
-   - Application logo
-   - Title
-   - Theme toggle switch
-   - Settings button
-
-2. **Input Section**
-   - Large text input area
-   - Save button
-   - Paste & Save button
-
-3. **Search Section**
-   - Search input field
-   - Clear search button
-
-4. **Items List**
-   - List of saved items
-   - Each item shows:
-     - Text content
-     - Timestamp
-     - Action buttons (Copy, Delete, Expand)
-
-5. **Footer**
-   - Credits and version information
-
-### Settings Window
-1. **Font Size Control**
-   - Decrease/Increase buttons
-   - Current size display
-
-2. **Feature Toggles**
-   - Show/Hide Copy Button
-   - Show/Hide Delete Button
-   - Show/Hide Expand Button
-   - Show/Hide Save Button
-   - Show/Hide Paste & Save Button
-   - Show/Hide Search
-   - Enable/Disable Enter Key Save
-   - Enable/Disable Double-click Edit
-
-3. **Action Buttons**
-   - Reset Settings
-   - Apply Changes
-   - Cancel
-
-## Color Schemes
-
-### Light Theme
-- **Background Colors**
-  - Primary: Pure White (#FFFFFF)
-  - Secondary: Light Gray (#F5F5F5)
-  - Accent: Blue (#0078D4)
-
-- **Text Colors**
-  - Primary: Black (#000000)
-  - Secondary: Dark Gray (#666666)
-
-- **UI Elements**
-  - Header: Light Gray (#F5F5F5)
-  - Input Background: White (#FFFFFF)
-  - Button Background: Light Gray (#E5E5E5)
-  - Item Background: White (#FFFFFF)
-  - Item Hover: Very Light Gray (#F0F0F0)
-
-### Dark Theme
-- **Background Colors**
-  - Primary: Dark Gray (#1E1E1E)
-  - Secondary: Slightly Lighter Gray (#2D2D2D)
-  - Accent: Blue (#0078D4)
-
-- **Text Colors**
-  - Primary: White (#FFFFFF)
-  - Secondary: Light Gray (#B0B0B0)
-
-- **UI Elements**
-  - Header: Dark Gray (#2D2D2D)
-  - Input Background: Dark Gray (#1E1E1E)
-  - Button Background: Medium Gray (#404040)
-  - Item Background: Dark Gray (#2D2D2D)
-  - Item Hover: Slightly Lighter Gray (#3D3D3D)
-
-## Data Storage Requirements
-
-### Database Structure
-1. **ClipItems Table**
-   - Unique ID
-   - Text content
-   - Timestamp
-   - Optional metadata
-
-2. **Settings Table**
-   - Setting key
-   - Setting value
-
-### Data Management
-- Store items locally
-- Support for large text content
-- Efficient search capabilities
-- Automatic backup functionality
-
-## Performance Considerations
-
-### Optimization Requirements
-1. **Loading**
-   - Implement lazy loading for large lists
-   - Load items in batches
-   - Cache frequently accessed items
-
-2. **Search**
-   - Implement efficient search algorithm
-   - Use indexing for faster searches
-   - Debounce search input
-
-3. **Memory Management**
-   - Handle large text items efficiently
-   - Implement proper cleanup
-   - Monitor memory usage
-
-## Error Handling
-
-### Error Scenarios
-1. **Storage Errors**
-   - Database access failures
-   - File system errors
-   - Data corruption
-
-2. **Clipboard Errors**
-   - Access denied
-   - Format unsupported
-   - Operation failed
-
-3. **UI Errors**
-   - Invalid input
-   - Operation conflicts
-   - State inconsistencies
-
-### Error Response
-- Show user-friendly error messages
-- Log errors for debugging
-- Provide recovery options
-- Maintain application stability
-
-## Security Considerations
-
-### Data Protection
-- Local storage only
-- No network connectivity
-- Input sanitization
-- Secure clipboard handling
-
-### User Privacy
-- No data collection
-- No telemetry
-- Clear data on uninstall
-- Optional encryption
-
-## Testing Requirements
-
-### Testing Areas
-1. **Functionality**
-   - Text saving and retrieval
-   - Clipboard operations
-   - Search functionality
-   - Settings management
-
-2. **User Interface**
-   - Theme switching
-   - Font size changes
-   - Button visibility
-   - Responsive design
-
-3. **Performance**
-   - Load time
-   - Search speed
-   - Memory usage
-   - Large dataset handling
-
-4. **Compatibility**
-   - Different Windows versions
-   - Various screen resolutions
-   - Different DPI settings
-   - Multiple monitors
-
-## Deployment Requirements
-
-### Installation
-- Single executable file
-- Optional installer
-- Automatic updates
-- Windows 10/11 compatibility
-
-### Distribution
-- Digital signature
-- Version management
-- Update mechanism
-- Uninstall process
-
-## Future Enhancements
-
-### Planned Features
-1. **Cloud Integration**
-   - Sync across devices
-   - Backup functionality
-   - Sharing capabilities
-
-2. **Advanced Features**
-   - Rich text support
-   - Categories and tags
-   - Export/Import
-   - Keyboard shortcuts
-
-3. **System Integration**
-   - System tray support
-   - Notification system
-   - Global hotkeys
-   - Quick access menu
-
-## Development Guidelines
-
-### Best Practices
-1. **Code Organization**
-   - Modular architecture
-   - Clear separation of concerns
-   - Consistent naming conventions
-   - Proper documentation
-
-2. **User Experience**
-   - Intuitive interface
-   - Responsive design
-   - Accessibility support
-   - Consistent behavior
-
-3. **Performance**
-   - Efficient algorithms
-   - Resource optimization
-   - Background processing
-   - Caching strategies
-
-4. **Maintenance**
-   - Regular updates
-   - Bug tracking
-   - User feedback
-   - Performance monitoring
+![vibes](https://github.com/user-attachments/assets/cb530e4c-9db2-45eb-bd75-b05f97076da8)
 
 ## Recent Updates & New Features
 
@@ -283,14 +17,115 @@ QuickClip is a desktop application that helps users manage their text snippets a
 
 ### Version 1.2
 - 🔗 **Smart Hyperlink Support**:
-  - Enable/disable search bar
-  - Configure Enter key behavior for saving
-  - Enable double-click to edit saved items
-  - Adjust font size to your preference
-  - Toggle visibility of the Recover button
-  - Info icons for clear setting descriptions
+  - Automatic URL detection and highlighting
+  - Click to open links in new tabs
+  - Double-click to edit link text
+  - Support for various URL formats (http://, https://, www.)
+- 📏 **Improved Text Handling**:
+  - Better text alignment and formatting
+  - Inline hyperlinks with text
+  - Smarter expand/collapse for long content
+  - Enhanced word wrapping for URLs
+
+## All Features
+
+- 🔗 **Hyperlink Management**:
+  - Automatic URL detection and formatting
+  - Click to open in new tab
+  - Double-click to edit
+  - Support for multiple URL formats
+- ✍️ **Text Input**: Write and save text snippets with support for multiline input (Shift+Enter for new lines).
+- 📋 **Clipboard Integration**: Paste and save text directly from your clipboard.
+- 🔍 **Search Functionality**: Quickly find saved items with instant search.
+- 🎨 **Theme Support**: Switch between light and dark themes.
+- 📱 **Responsive Design**: Clean and modern interface.
+- 💾 **Local Storage**: All snippets are saved locally.
+- ✨ **Recover Deleted Items**: Quickly recover accidentally deleted snippets (configurable visibility).
+- 🔄 **Copy & Delete**: Easy management of saved items.
+- ⚙️ **Customizable Settings**: 
+  - Toggle visibility of action buttons (Copy, Delete, Expand, Save, Paste & Save, Recover).
+  - Enable/disable search bar.
+  - Configure Enter key behavior for saving.
+  - Enable double-click to edit saved items.
+  - Adjust font size to your preference.
+  - Info icons for clear setting descriptions.
 - 📝 **Enhanced Editing**:
-  - ✨ **Recover Deleted Items**: Quickly recover accidentally deleted snippets.
-  - 📝 **Enhanced Editing**:
-    - Double-click any saved item to edit it
-    - Press Enter to save (configurable)
+  - Double-click any saved item to edit it.
+  - Press Enter to save (configurable).
+  - Expand/collapse long text items.
+  - Copy items to clipboard with one click.
+- 🎯 **User Experience**:
+  - Smooth animations and transitions.
+  - Updated icons.
+  - Responsive layout.
+
+## Get Extension
+
+[EDGE ![image](https://github.com/user-attachments/assets/d035496a-044b-4241-92c0-e1de4e017d16)
+ ](https://microsoftedge.microsoft.com/addons/detail/icffibdmcbmfnpbjeojmlpechnebmoni
+)
+
+[Chrome ![image](https://github.com/user-attachments/assets/5fcac80e-3a0c-43c3-9d92-0582d401be1f) ](https://chromewebstore.google.com/detail/mjdfflpebcmmpipdeeianpjfolmhkmna?utm_source=item-share-cb)
+
+## Installation
+
+1. Clone this repository or download the ZIP file & extract it.
+2. Open Chrome and go to `chrome://extensions/`
+3. Enable "Developer mode" in the top right corner
+4. Click "Load unpacked" and select the extracted directory
+
+## Usage
+
+1. Click the QuickClip icon in your Chrome toolbar to open the popup(make sure you pin it)
+2. Enter text in the text area or use the "Paste & Save" button to save clipboard content
+3. Use Shift+Enter for new lines
+4. Search through your saved items using the search bar
+5. Click the theme toggle to switch between light and dark themes
+6. Use the copy and delete buttons to manage your saved items
+7. Double-click any saved item to edit it
+8. Click the settings button to customize the extension to your preferences
+9. Use the font size controls to adjust text size
+10. Expand/collapse long text items for better readability
+11. Click on hyperlinks to open them in new tabs
+12. Double-click hyperlinks to edit their text
+
+## Development
+
+The extension is built using:
+- HTML5
+- CSS3
+- JavaScript
+- Chrome Extension API
+
+### File Structure
+
+```
+QuickClip-NotepadClipboard/
+├── manifest.json      # Extension configuration
+├── popup.html         # Main popup interface
+├── styles.css         # Styling for the popup
+├── popup.js           # Main functionality
+├── Icons              # Icon Folder
+├── PRIVACY.md         # Privacy Policy
+├── LICENSE            # LICENSE
+└── README.md          # Documentation
+
+```
+
+
+## Experimental Version
+
+[Experimental QuickClip](https://github.com/akasumitlamba/QuickClip-NotepadClipboard/tree/experimental)
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Author
+
+👤 **Sumit Kumar Lamba**
+- GitHub: [@akasumitlamba](https://github.com/akasumitlamba)
+
+## Acknowledgments
+
+- Inspired by the need for a simple, efficient clipboard manager
