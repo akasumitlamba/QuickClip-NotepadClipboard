@@ -273,3 +273,24 @@ QuickClip is a desktop application that helps users manage their text snippets a
    - Bug tracking
    - User feedback
    - Performance monitoring
+
+## Recent Updates & New Features
+
+### Version 1.2.1 (QoL Update)
+- ✨ **Recover Deleted Items**: Accidentally deleted a snippet? Use the "Recover" button (available for 10 seconds) to get it back in its original position.
+- ⚙️ **Recover Button Setting**: Added a toggle in the settings panel to show or hide the Recover button.
+- ℹ️ **Settings Clarity**: Added info icons next to each setting option providing a clear description of its function.
+
+### Version 1.2
+- 🔗 **Smart Hyperlink Support**:
+  - Enable/disable search bar
+  - Configure Enter key behavior for saving
+  - Enable double-click to edit saved items
+  - Adjust font size to your preference
+  - Toggle visibility of the Recover button
+  - Info icons for clear setting descriptions
+- 📝 **Enhanced Editing**:
+  - ✨ **Recover Deleted Items**: Quickly recover accidentally deleted snippets.
+  - 📝 **Enhanced Editing**:
+    - Double-click any saved item to edit it
+    - Press Enter to save (configurable)
