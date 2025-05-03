@@ -1,12 +1,14 @@
-## Important message ⚠️ Update: V1.3 Delayed
 
-The release of V1.3 has been postponed to end of may due to V1.2.1 update, which delivers significant Quality-of-Life improvements, ensuring a more secure and seamless experience.
 
-# QuickClip - Notepad Clipboard V1.2.1
+# QuickClip - Notepad Clipboard
 
 A Chromium extension that combines the functionality of a notepad and clipboard manager, allowing you to save, organize, and quickly access your text snippets.
 
 ![vibes](https://github.com/user-attachments/assets/cb530e4c-9db2-45eb-bd75-b05f97076da8)
+
+## Important message ⚠️ Update: V1.3 Delayed
+
+The release of V1.3 has been postponed to end of may due to V1.2.1 update, which delivers significant Quality-of-Life improvements, ensuring a more secure and seamless experience.
 
 ## Recent Updates & New Features
 
