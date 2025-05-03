@@ -17,25 +17,13 @@ The release of V1.3 has been postponed to end of may due to V1.2.1 update, which
 - ⚙️ **Recover Button Setting**: Added a toggle in the settings panel to show or hide the Recover button.
 - ℹ️ **Settings Clarity**: Added info icons next to each setting option providing a clear description of its function.
 
-### Version 1.2
-- 🔗 **Smart Hyperlink Support**:
+## All Features
+
+- 🔗 **Hyperlink Management**:
   - Automatic URL detection and highlighting
   - Click to open links in new tabs
   - Double-click to edit link text
   - Support for various URL formats (http://, https://, www.)
-- 📏 **Improved Text Handling**:
-  - Better text alignment and formatting
-  - Inline hyperlinks with text
-  - Smarter expand/collapse for long content
-  - Enhanced word wrapping for URLs
-
-## All Features
-
-- 🔗 **Hyperlink Management**:
-  - Automatic URL detection and formatting
-  - Click to open in new tab
-  - Double-click to edit
-  - Support for multiple URL formats
 - ✍️ **Text Input**: Write and save text snippets with support for multiline input (Shift+Enter for new lines).
 - 📋 **Clipboard Integration**: Paste and save text directly from your clipboard.
 - 🔍 **Search Functionality**: Quickly find saved items with instant search.
@@ -58,7 +46,7 @@ The release of V1.3 has been postponed to end of may due to V1.2.1 update, which
   - Copy items to clipboard with one click.
 - 🎯 **User Experience**:
   - Smooth animations and transitions.
-  - Updated icons.
+  - Settings apply immediately
   - Responsive layout.
 
 ## Get Extension
