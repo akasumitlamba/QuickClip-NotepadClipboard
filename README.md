@@ -4,8 +4,9 @@
 
 A Chromium extension that combines the functionality of a notepad and clipboard manager, allowing you to save, organize, and quickly access your text snippets.
 
-## Update: V1.3 Delayed
-### The release of V1.3 has been postponed due to the critical V1.2.5 update, which delivers an essential security patch to safeguard user data. Additionally, this update introduces significant quality-of-life improvements, ensuring a more secure and seamless experience.
+## Important message ⚠️ Update: V1.3 Delayed
+
+The release of V1.3 has been postponed to end of may due to the critical V1.2.5 update, which delivers an essential security patch to safeguard user data. Additionally, this update introduces significant quality-of-life improvements, ensuring a more secure and seamless experience.
 
 
 ![vibes](https://github.com/user-attachments/assets/cb530e4c-9db2-45eb-bd75-b05f97076da8)
