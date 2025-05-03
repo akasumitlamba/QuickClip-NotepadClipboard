@@ -74,7 +74,7 @@
 /* Saved items container */
 .saved-items {
     max-height: 300px;
-    overflow-y: auto;
+    overflow-y: overlay;
     width: 100%;
     box-sizing: border-box;
     padding-right: 0;
@@ -521,11 +521,50 @@ input:checked + .slider:before {
 /* Footer */
 .footer {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     margin-top: -5px;
     padding: 0;
     width: 100%;
+}
+
+.footer-left {
+    display: flex;
+    align-items: center;
+}
+
+.footer-right {
+    display: flex;
+    align-items: center;
+}
+
+.undo-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    background: rgba(33, 150, 243, 0.8);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    transition: all 0.2s ease;
+    opacity: 0.9;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.undo-btn:hover {
+    opacity: 1;
+    background: rgba(25, 118, 210, 0.9);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.undo-btn .icon {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
 }
 
 .credit-link {
@@ -533,7 +572,7 @@ input:checked + .slider:before {
     text-decoration: none;
     opacity: 0.4;
     transition: all 0.2s ease;
-    font-size: 10px !important;
+    font-size: 11px !important;
 }
 
 .credit-link:hover {
@@ -571,14 +610,14 @@ textarea:focus {
 
 /* Font size controls */
 .font-size-option {
-    border: 1px solid var(--input-border);
-    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
     padding: 4px;
     margin-top: 2px;
     background: var(--item-bg);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    border: 1px solid var(--input-border);
+    border-radius: 4px;
     user-select: none;
     -webkit-user-select: none;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -802,4 +841,54 @@ button {
 .expand-btn:hover {
     opacity: 1;
     background-color: var(--hover-bg);
+}
+
+/* Info icon styles */
+.info-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    margin-left: 4px;
+    color: var(--text-color);
+    opacity: 0.6;
+    cursor: help;
+    font-size: 12px;
+    transition: opacity 0.2s ease;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.info-icon:hover {
+    opacity: 1;
+}
+
+/* Update setting option styles to accommodate info icon */
+.setting-option {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    opacity: 0.9;
+    transition: opacity 0.2s ease;
+    padding: 2px 4px;
+    border-radius: 3px;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Update font size option styles */
+.font-size-option {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px;
+    margin-top: 2px;
+    background: var(--item-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 4px;
+    user-select: none;
+    -webkit-user-select: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 } 
