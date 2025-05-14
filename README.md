@@ -1,59 +1,49 @@
-
-
-## Important message ⚠️ Update: V1.3 Delayed
-
-The release of V1.3 has been postponed to end of may due to V1.2.5 update, which delivers significant quality-of-life improvements, ensuring a more secure and seamless experience.
-
 # QuickClip - Notepad Clipboard
 
 A Chromium extension that combines the functionality of a notepad and clipboard manager, allowing you to save, organize, and quickly access your text snippets.
 
 ![vibes](https://github.com/user-attachments/assets/cb530e4c-9db2-45eb-bd75-b05f97076da8)
 
-## Recent Updates & New Features
 
-### Version 1.2
-- 🔗 **Smart Hyperlink Support**:
-  - Automatic URL detection and highlighting
-  - Click to open links in new tabs
-  - Double-click to edit link text
-  - Support for various URL formats (http://, https://, www.)
-- 📏 **Improved Text Handling**:
-  - Better text alignment and formatting
-  - Inline hyperlinks with text
-  - Smarter expand/collapse for long content
-  - Enhanced word wrapping for URLs
+
+## New Release
+
+### Version 2.0 (Quality-Of-Life Update)
+- ✨ **Recover Deleted Items**: Accidentally deleted a snippet? Use the "Recover" button (available for 10 seconds) to get it back in its original position.
+- ⚙️ **Recover Button Setting**: Added a toggle in the settings panel to show or hide the Recover button.
+- ℹ️ **Settings Clarity**: Added info icons next to each setting option providing a clear description of its function.
 
 ## All Features
 
 - 🔗 **Hyperlink Management**:
-  - Automatic URL detection and formatting
-  - Click to open in new tab
-  - Double-click to edit
-  - Support for multiple URL formats
-- ✍️ **Text Input**: Write and save text snippets with support for multiline input
-- 📋 **Clipboard Integration**: Paste and save text directly from your clipboard
-- 🔍 **Search Functionality**: Quickly find saved items with instant search
-- 🎨 **Theme Support**: Switch between light and dark themes with a single click
-- 📱 **Responsive Design**: Clean and modern interface
-- 💾 **Local Storage**: All your snippets are saved locally
-- 🔄 **Copy & Delete**: Easy management of saved items
+  - Automatic URL detection and highlighting
+  - Click to open links in new tabs
+  - Double-click to edit link text
+  - Support for various URL formats (http://, https://, www.)
+- ✍️ **Text Input**: Write and save text snippets with support for multiline input (Shift+Enter for new lines).
+- 📋 **Clipboard Integration**: Paste and save text directly from your clipboard.
+- 🔍 **Search Functionality**: Quickly find saved items with instant search.
+- 🎨 **Theme Support**: Switch between light and dark themes.
+- 📱 **Responsive Design**: Clean and modern interface.
+- 💾 **Local Storage**: All snippets are saved locally.
+- ✨ **Recover Deleted Items**: Quickly recover accidentally deleted snippets (configurable visibility).
+- 🔄 **Copy & Delete**: Easy management of saved items.
 - ⚙️ **Customizable Settings**: 
-  - Toggle visibility of action buttons (Copy, Delete, Expand, Save, Paste & Save)
-  - Enable/disable search bar
-  - Configure Enter key behavior for saving
-  - Enable double-click to edit saved items
-  - Adjust font size to your preference
+  - Toggle visibility of action buttons (Copy, Delete, Expand, Save, Paste & Save, Recover).
+  - Enable/disable search bar.
+  - Configure Enter key behavior for saving.
+  - Enable double-click to edit saved items.
+  - Adjust font size to your preference.
+  - Info icons for clear setting descriptions.
 - 📝 **Enhanced Editing**:
-  - Double-click any saved item to edit it
-  - Press Enter to save (configurable)
-  - Expand/collapse long text items
-  - Copy items to clipboard with one click
+  - Double-click any saved item to edit it.
+  - Press Enter to save (configurable).
+  - Expand/collapse long text items.
+  - Copy items to clipboard with one click.
 - 🎯 **User Experience**:
-  - Smooth animations and transitions
-  - New & updated icons
-  - Responsive layout that adapts to your needs
-  - Action selection
+  - Smooth animations and transitions.
+  - Settings apply immediately
+  - Responsive layout.
 
 ## Get Extension
 
@@ -109,9 +99,6 @@ QuickClip-NotepadClipboard/
 ```
 
 
-## Experimental Version
-
-[Experimental QuickClip](https://github.com/akasumitlamba/QuickClip-NotepadClipboard/tree/experimental)
 
 ## Contributing
 
@@ -125,3 +112,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## Acknowledgments
 
 - Inspired by the need for a simple, efficient clipboard manager
+

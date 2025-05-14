@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const showSearch = document.getElementById('showSearch');
     const enterToSave = document.getElementById('enterToSave');
     const doubleClickEdit = document.getElementById('doubleClickEdit');
+    const showRecoverBtn = document.getElementById('showRecoverBtn');
     const resetSettingsBtn = document.getElementById('resetSettings');
     const decreaseFont = document.getElementById('decreaseFont');
     const increaseFont = document.getElementById('increaseFont');
@@ -24,6 +25,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const clearSearchBtn = document.querySelector('.clear-search');
 
     let savedItems = [];
+    let deletedItems = [];
+    let preDeletionSavedItems = null;
+    let undoTimeout = null;
+    let isRecovering = false;
+    let hasRecovered = false;
     let currentTheme = localStorage.getItem('theme') || 'dark';
 
     // Initialize settings panel state
@@ -131,7 +137,8 @@ document.addEventListener('DOMContentLoaded', function() {
         showPasteSaveBtn: true,
         showSearch: true,
         enterToSave: true,
-        doubleClickEdit: true
+        doubleClickEdit: true,
+        showRecoverBtn: true
     };
 
     // Validate and apply settings
@@ -176,6 +183,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (validatedSettings.doubleClickEdit !== undefined) {
             doubleClickEdit.checked = validatedSettings.doubleClickEdit;
         }
+        if (validatedSettings.showRecoverBtn !== undefined) {
+            showRecoverBtn.checked = validatedSettings.showRecoverBtn;
+        }
 
         // Update UI based on validated settings
         updateButtonVisibility();
@@ -216,7 +226,8 @@ document.addEventListener('DOMContentLoaded', function() {
             showPasteSaveBtn: showPasteSaveBtn.checked,
             showSearch: showSearch.checked,
             enterToSave: enterToSave.checked,
-            doubleClickEdit: doubleClickEdit.checked
+            doubleClickEdit: doubleClickEdit.checked,
+            showRecoverBtn: showRecoverBtn.checked
         };
 
         const validatedSettings = validateAndApplySettings(settings);
@@ -266,6 +277,31 @@ document.addEventListener('DOMContentLoaded', function() {
     doubleClickEdit.addEventListener('change', function() {
         saveSettings();
         renderItems();
+    });
+
+    // Add event listener for recover button setting change
+    showRecoverBtn.addEventListener('change', function() {
+        saveSettings();
+        const recoverButton = document.getElementById('undoButton');
+        if (!showRecoverBtn.checked) {
+            // Hide button and clear state immediately if turned off
+            recoverButton.style.display = 'none';
+            deletedItems = []; 
+            preDeletionSavedItems = null;
+            if (undoTimeout) {
+                clearTimeout(undoTimeout);
+                undoTimeout = null;
+            }
+            hasRecovered = false; // Reset recovery flag if toggled off
+        } else {
+            // If turned on, check if there's a pending recovery state
+            if (deletedItems.length > 0 && !hasRecovered) {
+                recoverButton.style.display = 'flex';
+                // Optionally restart timeout? Better to let next delete handle it.
+            } else {
+                recoverButton.style.display = 'none'; // Keep hidden if no pending recovery
+            }
+        }
     });
 
     // Toggle settings panel
@@ -506,9 +542,49 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 deleteButton.addEventListener('click', function(e) {
                     e.stopPropagation();
+                    
+                    // If this is the first delete since the last recovery or page load, reset the state
+                    if (deletedItems.length === 0) {
+                        hasRecovered = false;
+                        preDeletionSavedItems = [...savedItems];
+                        if (undoTimeout) {
+                            clearTimeout(undoTimeout);
+                            undoTimeout = null;
+                        }
+                    }
+                    
+                    // Store the deleted item object (just id and text needed)
+                    deletedItems.push({ id: item.id, text: item.text });
+                    // Remove from currently displayed saved items
                     savedItems = savedItems.filter(i => i.id !== item.id);
                     chrome.storage.local.set({ savedItems: savedItems }, function() {
                         renderItems();
+                        // Show recover button ONLY if setting is enabled and it hasn't been used yet
+                        const recoverButton = document.getElementById('undoButton');
+                        if (showRecoverBtn.checked && !hasRecovered) {
+                            recoverButton.style.display = 'flex';
+                        } else {
+                            // Explicitly hide if setting is off or already recovered
+                            recoverButton.style.display = 'none';
+                        }
+                        
+                        // Always reset the timeout on each deletion within the sequence
+                        if (undoTimeout) {
+                            clearTimeout(undoTimeout);
+                        }
+                        // Set timeout to hide recover button after 10 seconds, only if setting is enabled
+                        if (showRecoverBtn.checked) {
+                            undoTimeout = setTimeout(() => {
+                                // Check again if setting is still enabled and recovery hasn't happened
+                                if (showRecoverBtn.checked && !hasRecovered) {
+                                    recoverButton.style.display = 'none';
+                                    deletedItems = []; // Clear deleted items if timeout expires before recovery
+                                    preDeletionSavedItems = null; // Clear snapshot if timeout expires
+                                } 
+                                // If setting was turned off or recovery happened during timeout, do nothing here
+                                // State cleanup happens elsewhere (setting change or recovery click)
+                            }, 10000);
+                        }
                     });
                 });
             }
@@ -609,4 +685,39 @@ document.addEventListener('DOMContentLoaded', function() {
             itemsList.appendChild(itemElement);
         });
     }
+
+    // Add recover button functionality
+    document.getElementById('undoButton').addEventListener('click', function() {
+        const recoverButton = this;
+        // Double-check setting before allowing recovery
+        if (showRecoverBtn.checked && deletedItems.length > 0 && !isRecovering && !hasRecovered && preDeletionSavedItems) {
+            isRecovering = true;
+            
+            if (undoTimeout) {
+                clearTimeout(undoTimeout);
+                undoTimeout = null;
+            }
+
+            // IDs of items currently displayed (not deleted in this sequence)
+            const currentItemIds = new Set(savedItems.map(item => item.id));
+            // IDs of items deleted in this sequence (to be recovered)
+            const deletedItemIds = new Set(deletedItems.map(item => item.id));
+
+            // Reconstruct the list based on the pre-deletion snapshot
+            // Include items that were originally present and are either still present or being recovered
+            savedItems = preDeletionSavedItems.filter(originalItem => 
+                currentItemIds.has(originalItem.id) || deletedItemIds.has(originalItem.id)
+            );
+
+            chrome.storage.local.set({ savedItems: savedItems }, function() {
+                renderItems();
+                // Hide recover button and clear state for this sequence
+                recoverButton.style.display = 'none'; // Always hide after recovery
+                deletedItems = [];
+                preDeletionSavedItems = null; 
+                isRecovering = false;
+                hasRecovered = true; 
+            });
+        }
+    });
 }); 
