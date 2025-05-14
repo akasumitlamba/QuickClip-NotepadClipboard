@@ -98,6 +98,8 @@ QuickClip-NotepadClipboard/
 
 ```
 
+## Privacy Policy
+Read the privacy Policy here [PRIVACY.md](https://github.com/akasumitlamba/QuickClip-NotepadClipboard/blob/V2.0/PRIVACY.md)
 
 
 ## Contributing
