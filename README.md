@@ -6,13 +6,11 @@ A Chromium extension that combines the functionality of a notepad and clipboard 
 
 ![vibes](https://github.com/user-attachments/assets/cb530e4c-9db2-45eb-bd75-b05f97076da8)
 
-## Important message ⚠️ Update: V1.3 Delayed
 
-The release of V1.3 has been postponed to end of may due to V1.2.1 update, which delivers significant Quality-of-Life improvements, ensuring a more seamless experience.
 
 ## New Release
 
-### Version 1.2.1 (Quality-Of-Life Update)
+### Version 2.0 (Quality-Of-Life Update)
 - ✨ **Recover Deleted Items**: Accidentally deleted a snippet? Use the "Recover" button (available for 10 seconds) to get it back in its original position.
 - ⚙️ **Recover Button Setting**: Added a toggle in the settings panel to show or hide the Recover button.
 - ℹ️ **Settings Clarity**: Added info icons next to each setting option providing a clear description of its function.
@@ -103,9 +101,6 @@ QuickClip-NotepadClipboard/
 ```
 
 
-## Experimental Version
-
-[Experimental QuickClip](https://github.com/akasumitlamba/QuickClip-NotepadClipboard/tree/experimental)
 
 ## Contributing
 
