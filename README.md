@@ -12,6 +12,7 @@ A Chromium extension that combines the functionality of a notepad and clipboard 
 - ⚙️ **Recover Button Setting**: Added a toggle in the settings panel to show or hide the Recover button.
 - ℹ️ **Settings Clarity**: Added info icons next to each setting option providing a clear description of its function.
 
+
 ## All Features
 
 - 🔗 **Hyperlink Management**:
