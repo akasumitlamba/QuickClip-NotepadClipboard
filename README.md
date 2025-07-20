@@ -4,6 +4,13 @@ A Chromium extension that combines the functionality of a notepad and clipboard 
 
 ![vibes](https://github.com/user-attachments/assets/cb530e4c-9db2-45eb-bd75-b05f97076da8)
 
+## 🔗 Get QuickClip Pro
+
+**QuickClip Pro** is a powerful browser extension to instantly save, organize, and access your favorite text snippets, Images and links with ease of manage using  custom tags and a counter for your daily task count needs.
+
+- [EDGE ![image](https://github.com/user-attachments/assets/d035496a-044b-4241-92c0-e1de4e017d16)
+ ](https://microsoftedge.microsoft.com/addons/detail/fdpdihkediefiklboeedbcaeamachnlc)
+- [Chrome![image](https://github.com/user-attachments/assets/5fcac80e-3a0c-43c3-9d92-0582d401be1f)] (https://chromewebstore.google.com/detail/ndibnfgbmcfgoeapohknfeeiilgfhdjg?utm_source=item-share-cb)
 
 ## New Release
 
@@ -11,14 +18,6 @@ A Chromium extension that combines the functionality of a notepad and clipboard 
 - ✨ **Recover Deleted Items**: Accidentally deleted a snippet? Use the "Recover" button (available for 10 seconds) to get it back in its original position.
 - ⚙️ **Recover Button Setting**: Added a toggle in the settings panel to show or hide the Recover button.
 - ℹ️ **Settings Clarity**: Added info icons next to each setting option providing a clear description of its function.
-
-## 🔗 Get QuickClip Pro
-
-**QuickClip Pro** is a powerful browser extension to instantly save, organize, and access your favorite text snippets, Images and links with ease of manage using  custom tags and a counter for your daily task count needs.
-
-- [EDGE ![image](https://github.com/user-attachments/assets/d035496a-044b-4241-92c0-e1de4e017d16)
- ](https://microsoftedge.microsoft.com/addons/detail/fdpdihkediefiklboeedbcaeamachnlc)
-- [Chrome ![image](https://github.com/user-attachments/assets/5fcac80e-3a0c-43c3-9d92-0582d401be1f) (https://chromewebstore.google.com/detail/ndibnfgbmcfgoeapohknfeeiilgfhdjg?utm_source=item-share-cb)
 
 ## All Features
 
