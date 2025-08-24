@@ -13,7 +13,17 @@ data import & export Feature
 
 Looking for UI enhancement and extended sidebar support, Contributions are welcome.
 
-## 🔗 Get QuickClip Pro
+## Get Extension
+
+[EDGE ![image](https://github.com/user-attachments/assets/d035496a-044b-4241-92c0-e1de4e017d16)
+ ](https://microsoftedge.microsoft.com/addons/detail/icffibdmcbmfnpbjeojmlpechnebmoni
+)
+
+[Chrome ![image](https://github.com/user-attachments/assets/5fcac80e-3a0c-43c3-9d92-0582d401be1f) ](https://chromewebstore.google.com/detail/mjdfflpebcmmpipdeeianpjfolmhkmna?utm_source=item-share-cb)
+
+
+
+## 🔗 Get Pro Version- It's Free
 
 **QuickClip Pro** is a powerful browser extension to instantly save, organize, and access your favorite text snippets, Images and links with ease of manage using  custom tags and a counter for your daily task count needs.
 
@@ -60,13 +70,6 @@ Looking for UI enhancement and extended sidebar support, Contributions are welco
   - Settings apply immediately
   - Responsive layout.
 
-## Get Extension
-
-[EDGE ![image](https://github.com/user-attachments/assets/d035496a-044b-4241-92c0-e1de4e017d16)
- ](https://microsoftedge.microsoft.com/addons/detail/icffibdmcbmfnpbjeojmlpechnebmoni
-)
-
-[Chrome ![image](https://github.com/user-attachments/assets/5fcac80e-3a0c-43c3-9d92-0582d401be1f) ](https://chromewebstore.google.com/detail/mjdfflpebcmmpipdeeianpjfolmhkmna?utm_source=item-share-cb)
 
 ## Installation
 
