@@ -10,6 +10,7 @@ data import & export Feature
 
 Looking for UI enhancement and extended sidebar support, Contributions are welcome.
 
+
 ## 😎Get Extension
 
 - [EDGE ![image](https://github.com/user-attachments/assets/d035496a-044b-4241-92c0-e1de4e017d16)
