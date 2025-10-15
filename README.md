@@ -1,4 +1,12 @@
+<div align="center">
+ 
 # QuickClip - Notepad Clipboard
+
+## For feature request / Bug report [e-mail me](mailto:akasumitlamba@gmail.com)
+
+</div>
+
+
 
 A Chromium extension that combines the functionality of a notepad and clipboard manager, allowing you to save, organize, and quickly access your text snippets.
 
