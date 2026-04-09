@@ -2,7 +2,6 @@
  
 # QuickClip - Notepad Clipboard
 
-## For feature request / Bug report [e-mail me](mailto:akasumitlamba@gmail.com)
 
 </div>
 
