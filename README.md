@@ -2,6 +2,8 @@
  
 # QuickClip - Notepad Clipboard
 
+v3 coming ? - Maybe....
+
 
 </div>
 
