@@ -2,7 +2,7 @@
  
 # QuickClip - Notepad Clipboard
 
-v3 coming ? - Maybe....
+v3 coming...
 
 
 </div>
