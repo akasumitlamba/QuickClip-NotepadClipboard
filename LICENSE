@@ -1,23 +1,13 @@
-Modified MIT License with Additional Conditions
+MIT License
 
-Copyright (c) 2025 Sumit Lamba
+Copyright (c) 2026 Sumit Lamba
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
-in the Software with the following permissions and restrictions:
-
-PERMISSIONS:
-1. Use the application for personal or commercial purposes
-2. Modify the source code
-3. Distribute the modified source code
-4. Create derivative works
-
-RESTRICTIONS:
-1. You are NOT permitted to:
-   - Publish or distribute this extension or any derivative works on any browser 
-     extension stores (including but not limited to Chrome Web Store, Microsoft 
-     Edge Add-ons, Firefox Add-ons, etc.)
-   - Use the original extension name "QuickClip" for any derivative works
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
@@ -28,4 +18,4 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE. 
+SOFTWARE.

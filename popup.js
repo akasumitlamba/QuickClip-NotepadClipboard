@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const fontSizeValue = document.getElementById('fontSizeValue');
     const clearSearchBtn = document.querySelector('.clear-search');
     const creditLink = document.getElementById('creditLink');
+    const charCount = document.getElementById('charCount');
 
     let savedItems = [];
     let deletedItems = [];
@@ -149,6 +150,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Handle character counter
+    textInput.addEventListener('input', function() {
+        if (charCount) charCount.textContent = textInput.value.length;
+    });
+
     // Save new item
     saveButton.addEventListener('click', function() {
         saveItem();
@@ -200,6 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
             chrome.storage.local.set({ savedItems: savedItems }, function() {
                 renderItems();
                 textInput.value = '';
+                if (charCount) charCount.textContent = '0';
             });
         }
     }

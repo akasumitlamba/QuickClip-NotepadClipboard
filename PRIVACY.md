@@ -1,6 +1,6 @@
 # QuickClip Privacy Policy
 
-**Last Updated:** 2024
+**Last Updated:** 2026
 
 ## Privacy First
 
@@ -38,4 +38,4 @@ We may update our Privacy Policy from time to time. We will notify you of any ch
 
 If you have any questions about this Privacy Policy, please contact us at akasumitlamba@gmail.com.
 
-That's it! QuickClip is designed to be simple, private, and secure. 
+That's it! QuickClip is designed to be simple, private, and secure.

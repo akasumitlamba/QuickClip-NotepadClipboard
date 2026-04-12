@@ -38,7 +38,8 @@
 
 html,
 body {
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     scrollbar-width: none;
 }
 
@@ -112,7 +113,8 @@ body {
     -webkit-backdrop-filter: blur(10px);
     transition: background-color 0.3s ease, color 0.3s ease;
     font-size: var(--font-size);
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .container {
@@ -122,7 +124,7 @@ body {
     width: 100%;
     box-sizing: border-box;
     padding: 0;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .header {
@@ -259,7 +261,7 @@ body {
 }
 
 .settings-panel.active {
-    max-height: 500px;
+    max-height: 1500px;
     opacity: 1;
     transform: translateY(0);
     padding: 6px;
@@ -732,6 +734,25 @@ body {
 }
 
 /* Main textarea */
+.textarea-container {
+    position: relative;
+    width: 100%;
+}
+
+.char-count {
+    position: absolute;
+    bottom: 8px;
+    right: 14px;
+    font-size: 11px;
+    transform: scale(0.75);
+    transform-origin: bottom right;
+    color: var(--text-color);
+    opacity: 0.5;
+    pointer-events: none;
+    user-select: none;
+    transition: opacity 0.3s ease;
+}
+
 textarea {
     flex-grow: 1;
     padding: 10px 12px;

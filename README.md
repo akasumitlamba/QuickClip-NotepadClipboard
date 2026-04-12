@@ -1,140 +1,90 @@
 <div align="center">
- 
+
 # QuickClip - Notepad Clipboard
-
-v3 coming...
-
 
 </div>
 
-A Chromium extension that combines the functionality of a notepad and clipboard manager, allowing you to save, organize, and quickly access your text snippets.
+A Chrome extension that combines a notepad and clipboard manager so you can save, organize, and access text snippets without leaving your browser.
 
 ![vibes](https://github.com/user-attachments/assets/cb530e4c-9db2-45eb-bd75-b05f97076da8)
 
-# Working on Contribution Request
+## Get the Extension
 
-data import & export Feature
+- [Edge](https://microsoftedge.microsoft.com/addons/detail/icffibdmcbmfnpbjeojmlpechnebmoni)
+- [Chrome](https://chromewebstore.google.com/detail/mjdfflpebcmmpipdeeianpjfolmhkmna?utm_source=item-share-cb)
 
-Looking for UI enhancement and extended sidebar support, Contributions are welcome.
+## QuickClip Pro (Free)
 
+Pro adds support for images and links alongside text snippets, custom tags for organization, and a counter for daily task tracking.
 
-## 😎Get Extension
+- [Edge](https://microsoftedge.microsoft.com/addons/detail/fdpdihkediefiklboeedbcaeamachnlc)
+- [Chrome](https://chromewebstore.google.com/detail/ndibnfgbmcfgoeapohknfeeiilgfhdjg?utm_source=item-share-cb)
 
-- [EDGE ![image](https://github.com/user-attachments/assets/d035496a-044b-4241-92c0-e1de4e017d16)
- ](https://microsoftedge.microsoft.com/addons/detail/icffibdmcbmfnpbjeojmlpechnebmoni
-)
+## What's New in v3.0
 
-- [Chrome ![image](https://github.com/user-attachments/assets/5fcac80e-3a0c-43c3-9d92-0582d401be1f) ](https://chromewebstore.google.com/detail/mjdfflpebcmmpipdeeianpjfolmhkmna?utm_source=item-share-cb)
+- More room to work with, the editing layout has been redesigned to feel less cramped.
+- Right-click any selected text and choose "Save to QuickClip", or use `Ctrl + Shift + S` to save without opening the popup.
+- Replaced `innerHTML` with `textContent` throughout to close an XSS vulnerability.
+- **Character Counter:** Added a live character counter below the text input box to help you track snippet length.
 
+## Features
 
+**Hyperlinks:** URLs are detected automatically and highlighted. Click to open in a new tab, double-click to edit the text.
 
-## 🔗 Get Pro Version- It's Free
+**Text input:** Write snippets directly or paste from clipboard. Use Shift+Enter for new lines. A live character counter is displayed below the input box.
 
-**QuickClip Pro** is a powerful browser extension to instantly save, organize, and access your favorite text snippets, Images and links with ease of manage using  custom tags and a counter for your daily task count needs.
+**Quick save:** Select any text on a page and save it via the right-click context menu ("Save to QuickClip") or the `Ctrl + Shift + S` shortcut, without needing to open the popup.
 
-- [EDGE ![image](https://github.com/user-attachments/assets/d035496a-044b-4241-92c0-e1de4e017d16)
- ](https://microsoftedge.microsoft.com/addons/detail/fdpdihkediefiklboeedbcaeamachnlc)
-- [Chrome![image](https://github.com/user-attachments/assets/5fcac80e-3a0c-43c3-9d92-0582d401be1f)](https://chromewebstore.google.com/detail/ndibnfgbmcfgoeapohknfeeiilgfhdjg?utm_source=item-share-cb)
+**Search:** Filters your saved items as you type.
 
-## New Release
+**Themes:** Light and dark mode, toggled from the toolbar.
 
-### Version 2.0 (Quality-Of-Life Update)
-- ✨ **Recover Deleted Items**: Accidentally deleted a snippet? Use the "Recover" button (available for 10 seconds) to get it back in its original position.
-- ⚙️ **Recover Button Setting**: Added a toggle in the settings panel to show or hide the Recover button.
-- ℹ️ **Settings Clarity**: Added info icons next to each setting option providing a clear description of its function.
+**Local storage:** Everything stays on your machine, nothing is sent anywhere.
 
-## All Features
+**Undo deletes:** Accidentally deleted something? There's a recover option (can be hidden in settings if you don't need it).
 
-- 🔗 **Hyperlink Management**:
-  - Automatic URL detection and highlighting
-  - Click to open links in new tabs
-  - Double-click to edit link text
-  - Support for various URL formats (http://, https://, www.)
-- ✍️ **Text Input**: Write and save text snippets with support for multiline input (Shift+Enter for new lines).
-- 📋 **Clipboard Integration**: Paste and save text directly from your clipboard.
-- 🔍 **Search Functionality**: Quickly find saved items with instant search.
-- 🎨 **Theme Support**: Switch between light and dark themes.
-- 📱 **Responsive Design**: Clean and modern interface.
-- 💾 **Local Storage**: All snippets are saved locally.
-- ✨ **Recover Deleted Items**: Quickly recover accidentally deleted snippets (configurable visibility).
-- 🔄 **Copy & Delete**: Easy management of saved items.
-- ⚙️ **Customizable Settings**: 
-  - Toggle visibility of action buttons (Copy, Delete, Expand, Save, Paste & Save, Recover).
-  - Enable/disable search bar.
-  - Configure Enter key behavior for saving.
-  - Enable double-click to edit saved items.
-  - Adjust font size to your preference.
-  - Info icons for clear setting descriptions.
-- 📝 **Enhanced Editing**:
-  - Double-click any saved item to edit it.
-  - Press Enter to save (configurable).
-  - Expand/collapse long text items.
-  - Copy items to clipboard with one click.
-- 🎯 **User Experience**:
-  - Smooth animations and transitions.
-  - Settings apply immediately
-  - Responsive layout.
+**Editing:** Double-click any saved item to edit it in place. Press Enter to save (configurable).
 
+**Settings:** You can toggle individual buttons on/off (Copy, Delete, Expand, Save, Paste & Save, Recover), enable or disable the search bar, adjust font size, and configure how Enter and double-click behave.
 
 ## Installation
 
-1. Clone this repository or download the ZIP file & extract it.
-2. Open Chrome and go to `chrome://extensions/`
-3. Enable "Developer mode" in the top right corner
-4. Click "Load unpacked" and select the extracted directory
+1. Clone the repo or download and extract the ZIP.
+2. Go to `chrome://extensions/` in Chrome.
+3. Turn on Developer mode (top right).
+4. Click "Load unpacked" and select the folder.
 
 ## Usage
 
-1. Click the QuickClip icon in your Chrome toolbar to open the popup(make sure you pin it)
-2. Enter text in the text area or use the "Paste & Save" button to save clipboard content
-3. Use Shift+Enter for new lines
-4. Search through your saved items using the search bar
-5. Click the theme toggle to switch between light and dark themes
-6. Use the copy and delete buttons to manage your saved items
-7. Double-click any saved item to edit it
-8. Click the settings button to customize the extension to your preferences
-9. Use the font size controls to adjust text size
-10. Expand/collapse long text items for better readability
-11. Click on hyperlinks to open them in new tabs
-12. Double-click hyperlinks to edit their text
+Pin the extension so the icon stays in your toolbar, then click it to open the popup. Type or paste text, hit Save, and it'll show up in your list. From there you can copy, delete, edit, or expand items. Click the settings icon to adjust things to your liking.
 
-## Development
+## Built With
 
-The extension is built using:
-- HTML5
-- CSS3
-- JavaScript
+- HTML5, CSS3, vanilla JavaScript
 - Chrome Extension API
 
-### File Structure
+## File Structure
 
 ```
 QuickClip-NotepadClipboard/
-├── manifest.json      # Extension configuration
-├── popup.html         # Main popup interface
-├── styles.css         # Styling for the popup
-├── popup.js           # Main functionality
-├── Icons              # Icon Folder
-├── PRIVACY.md         # Privacy Policy
-├── LICENSE            # LICENSE
-└── README.md          # Documentation
-
+├── manifest.json      # Extension config
+├── popup.html         # Popup UI
+├── styles.css         # Styles
+├── popup.js           # Main logic
+├── Icons/             # Extension icons
+├── PRIVACY.md         # Privacy policy
+├── LICENSE
+└── README.md
 ```
 
-## Privacy Policy
-Read the privacy Policy here [PRIVACY.md](https://github.com/akasumitlamba/QuickClip-NotepadClipboard/blob/V2.0/PRIVACY.md)
+## Privacy
 
+[PRIVACY.md](https://github.com/akasumitlamba/QuickClip-NotepadClipboard/blob/V2.0/PRIVACY.md)
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Pull requests are welcome.
 
 ## Author
 
-👤 **Sumit Kumar Lamba**
-- GitHub: [@akasumitlamba](https://github.com/akasumitlamba)
-
-## Acknowledgments
-
-- Inspired by the need for a simple, efficient clipboard manager
-
+**Sumit Kumar Lamba** ([@akasumitlamba](https://github.com/akasumitlamba))
