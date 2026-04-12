@@ -6,8 +6,25 @@
   "permissions": [
     "storage",
     "clipboardWrite",
-    "clipboardRead"
+    "clipboardRead",
+    "contextMenus",
+    "notifications",
+    "scripting",
+    "activeTab",
+    "tabs"
   ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "commands": {
+    "save-selection-or-page": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+S",
+        "mac": "Command+Shift+S"
+      },
+      "description": "Save selected text or page URL to QuickClip"
+    }
+  },
   "action": {
     "default_popup": "popup.html",
     "default_icon": {

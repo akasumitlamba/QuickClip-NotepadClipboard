@@ -1,11 +1,25 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const defaultSettings = {
+        showCopyBtn: true,
+        showDeleteBtn: true,
+        showExpandBtn: true,
+        showSaveBtn: true,
+        showPasteSaveBtn: true,
+        showSearch: true,
+        enterToSave: true,
+        doubleClickEdit: true,
+        showRecoverBtn: true,
+        showSaveNotifications: true
+    };
+
     // Get all DOM elements first
     const textInput = document.getElementById('textInput');
     const saveButton = document.getElementById('saveButton');
     const pasteSaveButton = document.getElementById('pasteSaveButton');
     const searchInput = document.getElementById('searchInput');
     const itemsList = document.getElementById('itemsList');
-    const themeToggle = document.getElementById('themeToggle');
+    const themeDarkBtn = document.getElementById('themeDarkBtn');
+    const themeLightBtn = document.getElementById('themeLightBtn');
     const body = document.body;
     const settingsBtn = document.getElementById('settingsBtn');
     const settingsPanel = document.querySelector('.settings-panel');
@@ -18,11 +32,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const enterToSave = document.getElementById('enterToSave');
     const doubleClickEdit = document.getElementById('doubleClickEdit');
     const showRecoverBtn = document.getElementById('showRecoverBtn');
+    const showSaveNotifications = document.getElementById('showSaveNotifications');
     const resetSettingsBtn = document.getElementById('resetSettings');
     const decreaseFont = document.getElementById('decreaseFont');
     const increaseFont = document.getElementById('increaseFont');
     const fontSizeValue = document.getElementById('fontSizeValue');
     const clearSearchBtn = document.querySelector('.clear-search');
+    const creditLink = document.getElementById('creditLink');
 
     let savedItems = [];
     let deletedItems = [];
@@ -31,6 +47,42 @@ document.addEventListener('DOMContentLoaded', function() {
     let isRecovering = false;
     let hasRecovered = false;
     let currentTheme = localStorage.getItem('theme') || 'dark';
+
+    // Cycle footer messages
+    if (creditLink) {
+        const footerMessages = [
+            {
+                text: '<svg class="icon" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> Made by @akasumitlamba',
+                url: 'https://www.linkedin.com/in/akasumitlamba/'
+            },
+            {
+                text: '<svg class="icon" viewBox="0 0 24 24"><path d="M22 6h-4.18A3.001 3.001 0 0 0 12.5 3c-.11 0-.22.01-.32.03C11.54 2.38 10.82 2 10 2a3.001 3.001 0 0 0-3 3c0 .28.04.55.11.81A2.99 2.99 0 0 0 2 6v3h20V6zM10 4a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm4.5 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2zM2 11v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-8H2zm9 8H4v-6h7v6zm9 0h-7v-6h7v6z"/></svg> Get QuickClip Pro (Free)',
+                url: 'https://chromewebstore.google.com/detail/ndibnfgbmcfgoeapohknfeeiilgfhdjg?utm_source=item-share-cb'
+            },
+            {
+                text: '<svg class="icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z"/></svg> Rate us 5 stars',
+                url: 'https://chromewebstore.google.com/detail/mjdfflpebcmmpipdeeianpjfolmhkmna?utm_source=item-share-cb'
+            },
+            {
+                text: '<svg class="icon" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/></svg> Share QuickClip',
+                url: 'https://chromewebstore.google.com/detail/mjdfflpebcmmpipdeeianpjfolmhkmna?utm_source=item-share-cb'
+            }
+        ];
+        
+        let messageIndex = parseInt(localStorage.getItem('footerMessageIndex') || '0', 10);
+        
+        // Ensure index is within bounds (in case we add/remove messages later)
+        if (isNaN(messageIndex) || messageIndex >= footerMessages.length) {
+            messageIndex = 0;
+        }
+        
+        const currentMessage = footerMessages[messageIndex];
+        creditLink.innerHTML = currentMessage.text;
+        creditLink.href = currentMessage.url;
+        
+        // Save the next index for the next open
+        localStorage.setItem('footerMessageIndex', ((messageIndex + 1) % footerMessages.length).toString());
+    }
 
     // Initialize settings panel state
     settingsPanel.style.display = 'none';
@@ -41,19 +93,46 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Set initial theme
     body.setAttribute('data-theme', currentTheme);
-    themeToggle.checked = currentTheme === 'light';
+    updateThemeButtons();
 
     // Theme toggle functionality
-    themeToggle.addEventListener('change', function() {
-        currentTheme = this.checked ? 'light' : 'dark';
-        body.setAttribute('data-theme', currentTheme);
-        localStorage.setItem('theme', currentTheme);
+    themeDarkBtn.addEventListener('click', function() {
+        if (currentTheme !== 'dark') {
+            currentTheme = 'dark';
+            body.setAttribute('data-theme', currentTheme);
+            localStorage.setItem('theme', currentTheme);
+            updateThemeButtons();
+        }
     });
+
+    themeLightBtn.addEventListener('click', function() {
+        if (currentTheme !== 'light') {
+            currentTheme = 'light';
+            body.setAttribute('data-theme', currentTheme);
+            localStorage.setItem('theme', currentTheme);
+            updateThemeButtons();
+        }
+    });
+
+    function updateThemeButtons() {
+        const isLightTheme = currentTheme === 'light';
+        themeDarkBtn.classList.toggle('active', !isLightTheme);
+        themeLightBtn.classList.toggle('active', isLightTheme);
+        themeDarkBtn.setAttribute('aria-pressed', String(!isLightTheme));
+        themeLightBtn.setAttribute('aria-pressed', String(isLightTheme));
+    }
 
     // Load saved items from storage
     chrome.storage.local.get(['savedItems'], function(result) {
         savedItems = result.savedItems || [];
         renderItems();
+    });
+
+    chrome.storage.onChanged.addListener(function(changes, areaName) {
+        if (areaName === 'local' && changes.savedItems) {
+            savedItems = changes.savedItems.newValue || [];
+            renderItems();
+        }
     });
 
     // Handle Shift+Enter for new lines and Enter to save
@@ -75,15 +154,37 @@ document.addEventListener('DOMContentLoaded', function() {
         saveItem();
     });
 
-    // Function to detect URLs in text
-    function detectUrls(text) {
-        // Improved URL regex that handles www, http, https, and protocol-less URLs
+    // Render text with clickable URLs safely avoiding XSS
+    function renderContentWithUrls(text, container) {
+        container.innerHTML = '';
         const urlRegex = /(?:https?:\/\/|www\.)[^\s<]+[^<.,:;"')\]\s]/g;
-        return text.replace(urlRegex, function(url) {
-            // Add https:// if the URL starts with www
+        
+        let lastIndex = 0;
+        let match;
+        
+        while ((match = urlRegex.exec(text)) !== null) {
+            // Add text before the URL
+            if (match.index > lastIndex) {
+                container.appendChild(document.createTextNode(text.substring(lastIndex, match.index)));
+            }
+            
+            // Add the URL as an anchor tag
+            const url = match[0];
+            const a = document.createElement('a');
             const fullUrl = url.startsWith('www.') ? 'https://' + url : url;
-            return `<a href="${fullUrl}" class="hyperlink" target="_blank">${url}</a>`;
-        });
+            a.href = fullUrl;
+            a.className = 'hyperlink';
+            a.target = '_blank';
+            a.textContent = url;
+            container.appendChild(a);
+            
+            lastIndex = urlRegex.lastIndex;
+        }
+        
+        // Add remaining text
+        if (lastIndex < text.length) {
+            container.appendChild(document.createTextNode(text.substring(lastIndex)));
+        }
     }
 
     // Function to save item
@@ -128,34 +229,15 @@ document.addEventListener('DOMContentLoaded', function() {
         renderItems();
     });
 
-    // Default settings
-    const defaultSettings = {
-        showCopyBtn: true,
-        showDeleteBtn: true,
-        showExpandBtn: true,
-        showSaveBtn: true,
-        showPasteSaveBtn: true,
-        showSearch: true,
-        enterToSave: true,
-        doubleClickEdit: true,
-        showRecoverBtn: true
-    };
-
     // Validate and apply settings
     function validateAndApplySettings(settings) {
-        // If no settings exist, use defaults
-        if (!settings || Object.keys(settings).length === 0) {
-            settings = defaultSettings;
-        }
-
-        // Validate each setting
         const validatedSettings = {};
-        for (const [key, value] of Object.entries(settings)) {
-            // Ensure the setting exists in defaults
-            if (key in defaultSettings) {
-                // Ensure the value is a boolean
-                validatedSettings[key] = typeof value === 'boolean' ? value : defaultSettings[key];
-            }
+        const sourceSettings = settings && typeof settings === 'object' ? settings : {};
+
+        // Always populate every known setting so missing keys inherit defaults.
+        for (const [key, defaultValue] of Object.entries(defaultSettings)) {
+            const value = sourceSettings[key];
+            validatedSettings[key] = typeof value === 'boolean' ? value : defaultValue;
         }
 
         // Apply validated settings to checkboxes
@@ -186,6 +268,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (validatedSettings.showRecoverBtn !== undefined) {
             showRecoverBtn.checked = validatedSettings.showRecoverBtn;
         }
+        if (validatedSettings.showSaveNotifications !== undefined) {
+            showSaveNotifications.checked = validatedSettings.showSaveNotifications;
+        }
 
         // Update UI based on validated settings
         updateButtonVisibility();
@@ -203,16 +288,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load settings with validation
     function loadSettings() {
         chrome.storage.local.get(['buttonSettings'], function(result) {
-            // If no settings exist, initialize with defaults
-            if (!result.buttonSettings) {
-                chrome.storage.local.set({ buttonSettings: defaultSettings }, function() {
-                    validateAndApplySettings(defaultSettings);
-                    updatePlaceholderText(); // Update placeholder after loading defaults
-                });
-            } else {
-                validateAndApplySettings(result.buttonSettings);
-                updatePlaceholderText(); // Update placeholder after loading settings
-            }
+            const validatedSettings = validateAndApplySettings(result.buttonSettings);
+            chrome.storage.local.set({ buttonSettings: validatedSettings }, function() {
+                updatePlaceholderText();
+            });
         });
     }
 
@@ -227,7 +306,8 @@ document.addEventListener('DOMContentLoaded', function() {
             showSearch: showSearch.checked,
             enterToSave: enterToSave.checked,
             doubleClickEdit: doubleClickEdit.checked,
-            showRecoverBtn: showRecoverBtn.checked
+            showRecoverBtn: showRecoverBtn.checked,
+            showSaveNotifications: showSaveNotifications.checked
         };
 
         const validatedSettings = validateAndApplySettings(settings);
@@ -302,6 +382,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 recoverButton.style.display = 'none'; // Keep hidden if no pending recovery
             }
         }
+    });
+
+    showSaveNotifications.addEventListener('change', function() {
+        saveSettings();
     });
 
     // Toggle settings panel
@@ -486,13 +570,17 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const contentElement = document.createElement('div');
             contentElement.className = 'saved-item-content';
-            contentElement.innerHTML = detectUrls(item.text);
+            
+            // Render text safely avoiding XSS, converting URLs
+            renderContentWithUrls(item.text, contentElement);
             
             const buttonContainer = document.createElement('div');
             buttonContainer.className = 'button-container';
             
+            const shouldShowExpandButton = item.text.length > 100 || item.text.split('\n').length > 2;
+
             // Add expand button if enabled and content is long enough
-            if (showExpandBtn.checked && (item.text.length > 100 || item.text.includes('http'))) {
+            if (showExpandBtn.checked && shouldShowExpandButton) {
                 const expandButton = document.createElement('button');
                 expandButton.className = 'expand-btn';
                 expandButton.innerHTML = '<svg class="icon" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>';
@@ -502,6 +590,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 expandButton.addEventListener('click', function(e) {
                     e.stopPropagation();
                     contentElement.classList.toggle('expanded');
+                    itemElement.classList.toggle('is-expanded', contentElement.classList.contains('expanded'));
                     expandButton.innerHTML = contentElement.classList.contains('expanded') 
                         ? '<svg class="icon" viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z"/></svg>'
                         : '<svg class="icon" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>';
@@ -589,8 +678,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
             
-            itemElement.appendChild(contentElement);
             itemElement.appendChild(buttonContainer);
+            itemElement.appendChild(contentElement);
             
             // Handle hyperlink clicks and double-clicks
             if (doubleClickEdit.checked) {

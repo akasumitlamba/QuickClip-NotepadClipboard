@@ -1,183 +1,593 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-    
+  <head>
     <title>QuickClip</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <div class="container">
-        <div class="header">
-            <h2>QuickClip</h2>
-            <div class="header-buttons">
-                <button id="settingsBtn" class="settings-btn" title="Settings">
-                    <svg class="icon" viewBox="0 0 24 24">
-                        <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.07.63-.07.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
-                    </svg>
-                </button>
-                <label class="theme-switch">
-                    <input type="checkbox" id="themeToggle">
-                    <span class="slider"></span>
-                </label>
-            </div>
+      <div class="header">
+        <h2 class="brand-title" aria-label="QuickClip">
+          <span class="brand-word">Quick</span
+          ><span class="brand-clip">Clip</span>
+        </h2>
+        <div class="header-buttons">
+          <button id="settingsBtn" class="settings-btn" title="Settings">
+            <svg class="icon" viewBox="0 0 24 24">
+              <path
+                d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.07.63-.07.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"
+              />
+            </svg>
+          </button>
         </div>
-        
-        <div class="settings-panel" style="display: none;">
-            <h3>Settings</h3>
-            <div class="settings-options">
-                <div class="font-size-option" style="justify-content: space-between;">
-                    <span>Font Size</span>
-                    <div class="font-size-control">
-                        <button id="decreaseFont" class="font-size-btn" title="Decrease Font Size">-</button>
-                        <span id="fontSizeValue">14px</span>
-                        <button id="increaseFont" class="font-size-btn" title="Increase Font Size">+</button>
-                    </div>
-                </div>
-                <label class="setting-option">
-                    <input type="checkbox" id="showCopyBtn">
-                    <span>Show Copy Button</span>
-                    <div class="info-icon" title="Toggle visibility of the copy button on saved items">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
-                            <rect x="11" y="10" width="2" height="6" rx="1" fill="currentColor"/>
-                            <rect x="11" y="7" width="2" height="2" rx="1" fill="currentColor"/>
-                        </svg>
-                    </div>
-                </label>
-                <label class="setting-option">
-                    <input type="checkbox" id="showDeleteBtn">
-                    <span>Show Delete Button</span>
-                    <div class="info-icon" title="Toggle visibility of the delete button on saved items">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
-                            <rect x="11" y="10" width="2" height="6" rx="1" fill="currentColor"/>
-                            <rect x="11" y="7" width="2" height="2" rx="1" fill="currentColor"/>
-                        </svg>
-                    </div>
-                </label>
-                <label class="setting-option">
-                    <input type="checkbox" id="showExpandBtn">
-                    <span>Show Expand Button</span>
-                    <div class="info-icon" title="Toggle visibility of the expand/collapse button on long text and links">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
-                            <rect x="11" y="10" width="2" height="6" rx="1" fill="currentColor"/>
-                            <rect x="11" y="7" width="2" height="2" rx="1" fill="currentColor"/>
-                        </svg>
-                    </div>
-                </label>
-                <label class="setting-option">
-                    <input type="checkbox" id="showSaveBtn">
-                    <span>Show Save Button</span>
-                    <div class="info-icon" title="Toggle visibility of the save button for input">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
-                            <rect x="11" y="10" width="2" height="6" rx="1" fill="currentColor"/>
-                            <rect x="11" y="7" width="2" height="2" rx="1" fill="currentColor"/>
-                        </svg>
-                    </div>
-                </label>
-                <label class="setting-option">
-                    <input type="checkbox" id="showPasteSaveBtn">
-                    <span>Show Paste & Save</span>
-                    <div class="info-icon" title="Toggle visibility of the paste and save button for input">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
-                            <rect x="11" y="10" width="2" height="6" rx="1" fill="currentColor"/>
-                            <rect x="11" y="7" width="2" height="2" rx="1" fill="currentColor"/>
-                        </svg>
-                    </div>
-                </label>
-                <label class="setting-option">
-                    <input type="checkbox" id="showSearch">
-                    <span>Show Search</span>
-                    <div class="info-icon" title="Toggle visibility of the search bar">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
-                            <rect x="11" y="10" width="2" height="6" rx="1" fill="currentColor"/>
-                            <rect x="11" y="7" width="2" height="2" rx="1" fill="currentColor"/>
-                        </svg>
-                    </div>
-                </label>
-                <label class="setting-option">
-                    <input type="checkbox" id="enterToSave">
-                    <span>Enter Key Save Text</span>
-                    <div class="info-icon" title="Enable/disable saving text when pressing Enter key">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
-                            <rect x="11" y="10" width="2" height="6" rx="1" fill="currentColor"/>
-                            <rect x="11" y="7" width="2" height="2" rx="1" fill="currentColor"/>
-                        </svg>
-                    </div>
-                </label>
-                <label class="setting-option">
-                    <input type="checkbox" id="doubleClickEdit">
-                    <span>Double-click to Edit</span>
-                    <div class="info-icon" title="Enable/disable editing saved items by double-clicking">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
-                            <rect x="11" y="10" width="2" height="6" rx="1" fill="currentColor"/>
-                            <rect x="11" y="7" width="2" height="2" rx="1" fill="currentColor"/>
-                        </svg>
-                    </div>
-                </label>
-                <label class="setting-option">
-                    <input type="checkbox" id="showRecoverBtn">
-                    <span>Show Recover Button</span>
-                    <div class="info-icon" title="Toggle visibility of the recover button after deleting items">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
-                            <rect x="11" y="10" width="2" height="6" rx="1" fill="currentColor"/>
-                            <rect x="11" y="7" width="2" height="2" rx="1" fill="currentColor"/>
-                        </svg>
-                    </div>
-                </label>
-                
-            </div>
-            <div class="reset-settings">
-                <button id="resetSettings" class="reset-btn">
-                    <svg class="icon" viewBox="0 0 24 24">
-                        <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
-                    </svg>
-                    Reset Settings
-                </button>
-            </div>
-        </div>
-        
-        <div class="input-section">
-            <textarea id="textInput" placeholder="Enter text here..."></textarea>
-            <div class="button-group">
-                <button id="saveButton">Save</button>
-                <button id="pasteSaveButton">Paste & Save</button>
-            </div>
-        </div>
-        
-        <div class="search-section">
-            <input type="text" id="searchInput" placeholder="Search saved items...">
-            <button class="clear-search" title="Clear search">
-                <svg class="icon" viewBox="0 0 24 24">
-                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                </svg>
-            </button>
-        </div>
+      </div>
 
-        <div class="saved-items">
-            <div id="itemsList"></div>
+      <div class="settings-panel" style="display: none">
+        <h3>Settings</h3>
+        <div class="theme-setting">
+          <div class="theme-setting-title">
+            <svg
+              class="theme-setting-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 3V5"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M12 19V21"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M4.93 4.93L6.34 6.34"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M17.66 17.66L19.07 19.07"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M3 12H5"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M19 12H21"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M4.93 19.07L6.34 17.66"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M17.66 6.34L19.07 4.93"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <circle
+                cx="12"
+                cy="12"
+                r="4"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+            </svg>
+            <span>Color Theme</span>
+          </div>
+          <div class="theme-toggle-group" role="group" aria-label="Color theme">
+            <button id="themeDarkBtn" type="button" class="theme-toggle-btn">
+              Dark
+            </button>
+            <button id="themeLightBtn" type="button" class="theme-toggle-btn">
+              Light
+            </button>
+          </div>
         </div>
-        <div class="footer">
-            <div class="footer-right">
-                <button id="undoButton" class="undo-btn" style="display: none;">
-                    <svg class="icon" viewBox="0 0 24 24">
-                        <path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/>
-                    </svg>
-                    Recover
-                </button>
+        <div class="settings-options">
+          <div class="font-size-option" style="justify-content: space-between">
+            <span>Font Size</span>
+            <div class="font-size-control">
+              <button
+                id="decreaseFont"
+                class="font-size-btn"
+                title="Decrease Font Size"
+              >
+                -
+              </button>
+              <span id="fontSizeValue">14px</span>
+              <button
+                id="increaseFont"
+                class="font-size-btn"
+                title="Increase Font Size"
+              >
+                +
+              </button>
             </div>
-            <div class="footer-left">
-                <a href="https://github.com/akasumitlamba/QuickClip-NotepadClipboard" target="_blank" class="credit-link">Made by @akasumitlamba</a>
+          </div>
+          <label class="setting-option">
+            <input type="checkbox" id="showCopyBtn" />
+            <span>Show Copy Button</span>
+            <div
+              class="info-icon"
+              title="Toggle visibility of the copy button on saved items"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                />
+                <rect
+                  x="11"
+                  y="10"
+                  width="2"
+                  height="6"
+                  rx="1"
+                  fill="currentColor"
+                />
+                <rect
+                  x="11"
+                  y="7"
+                  width="2"
+                  height="2"
+                  rx="1"
+                  fill="currentColor"
+                />
+              </svg>
             </div>
+          </label>
+          <label class="setting-option">
+            <input type="checkbox" id="showDeleteBtn" />
+            <span>Show Delete Button</span>
+            <div
+              class="info-icon"
+              title="Toggle visibility of the delete button on saved items"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                />
+                <rect
+                  x="11"
+                  y="10"
+                  width="2"
+                  height="6"
+                  rx="1"
+                  fill="currentColor"
+                />
+                <rect
+                  x="11"
+                  y="7"
+                  width="2"
+                  height="2"
+                  rx="1"
+                  fill="currentColor"
+                />
+              </svg>
+            </div>
+          </label>
+          <label class="setting-option">
+            <input type="checkbox" id="showExpandBtn" />
+            <span>Show Expand Button</span>
+            <div
+              class="info-icon"
+              title="Toggle visibility of the expand/collapse button on long text and links"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                />
+                <rect
+                  x="11"
+                  y="10"
+                  width="2"
+                  height="6"
+                  rx="1"
+                  fill="currentColor"
+                />
+                <rect
+                  x="11"
+                  y="7"
+                  width="2"
+                  height="2"
+                  rx="1"
+                  fill="currentColor"
+                />
+              </svg>
+            </div>
+          </label>
+          <label class="setting-option">
+            <input type="checkbox" id="showSaveBtn" />
+            <span>Show Save Button</span>
+            <div
+              class="info-icon"
+              title="Toggle visibility of the save button for input"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                />
+                <rect
+                  x="11"
+                  y="10"
+                  width="2"
+                  height="6"
+                  rx="1"
+                  fill="currentColor"
+                />
+                <rect
+                  x="11"
+                  y="7"
+                  width="2"
+                  height="2"
+                  rx="1"
+                  fill="currentColor"
+                />
+              </svg>
+            </div>
+          </label>
+          <label class="setting-option">
+            <input type="checkbox" id="showPasteSaveBtn" />
+            <span>Show Paste & Save</span>
+            <div
+              class="info-icon"
+              title="Toggle visibility of the paste and save button for input"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                />
+                <rect
+                  x="11"
+                  y="10"
+                  width="2"
+                  height="6"
+                  rx="1"
+                  fill="currentColor"
+                />
+                <rect
+                  x="11"
+                  y="7"
+                  width="2"
+                  height="2"
+                  rx="1"
+                  fill="currentColor"
+                />
+              </svg>
+            </div>
+          </label>
+          <label class="setting-option">
+            <input type="checkbox" id="showSearch" />
+            <span>Show Search</span>
+            <div class="info-icon" title="Toggle visibility of the search bar">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                />
+                <rect
+                  x="11"
+                  y="10"
+                  width="2"
+                  height="6"
+                  rx="1"
+                  fill="currentColor"
+                />
+                <rect
+                  x="11"
+                  y="7"
+                  width="2"
+                  height="2"
+                  rx="1"
+                  fill="currentColor"
+                />
+              </svg>
+            </div>
+          </label>
+          <label class="setting-option">
+            <input type="checkbox" id="enterToSave" />
+            <span>Enter Key Save Text</span>
+            <div
+              class="info-icon"
+              title="Enable/disable saving text when pressing Enter key"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                />
+                <rect
+                  x="11"
+                  y="10"
+                  width="2"
+                  height="6"
+                  rx="1"
+                  fill="currentColor"
+                />
+                <rect
+                  x="11"
+                  y="7"
+                  width="2"
+                  height="2"
+                  rx="1"
+                  fill="currentColor"
+                />
+              </svg>
+            </div>
+          </label>
+          <label class="setting-option">
+            <input type="checkbox" id="doubleClickEdit" />
+            <span>Double-click to Edit</span>
+            <div
+              class="info-icon"
+              title="Enable/disable editing saved items by double-clicking"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                />
+                <rect
+                  x="11"
+                  y="10"
+                  width="2"
+                  height="6"
+                  rx="1"
+                  fill="currentColor"
+                />
+                <rect
+                  x="11"
+                  y="7"
+                  width="2"
+                  height="2"
+                  rx="1"
+                  fill="currentColor"
+                />
+              </svg>
+            </div>
+          </label>
+          <label class="setting-option">
+            <input type="checkbox" id="showRecoverBtn" />
+            <span>Show Recover Button</span>
+            <div
+              class="info-icon"
+              title="Toggle visibility of the recover button after deleting items"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                />
+                <rect
+                  x="11"
+                  y="10"
+                  width="2"
+                  height="6"
+                  rx="1"
+                  fill="currentColor"
+                />
+                <rect
+                  x="11"
+                  y="7"
+                  width="2"
+                  height="2"
+                  rx="1"
+                  fill="currentColor"
+                />
+              </svg>
+            </div>
+          </label>
+          <label class="setting-option">
+            <input type="checkbox" id="showSaveNotifications" />
+            <span>Save Success Notifications</span>
+            <div
+              class="info-icon"
+              title="Show or hide notifications after saving items from the right-click menu or keyboard shortcut"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                />
+                <rect
+                  x="11"
+                  y="10"
+                  width="2"
+                  height="6"
+                  rx="1"
+                  fill="currentColor"
+                />
+                <rect
+                  x="11"
+                  y="7"
+                  width="2"
+                  height="2"
+                  rx="1"
+                  fill="currentColor"
+                />
+              </svg>
+            </div>
+          </label>
         </div>
+        <div class="reset-settings">
+          <button id="resetSettings" class="reset-btn">
+            <svg class="icon" viewBox="0 0 24 24">
+              <path
+                d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"
+              />
+            </svg>
+            Reset Settings
+          </button>
+        </div>
+      </div>
+
+      <div class="input-section">
+        <textarea id="textInput" placeholder="Enter text here..."></textarea>
+        <div class="button-group">
+          <button id="saveButton">Save</button>
+          <button id="pasteSaveButton">Paste & Save</button>
+        </div>
+      </div>
+
+      <div class="search-section">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search saved items..."
+        />
+        <button class="clear-search" title="Clear search">
+          <svg class="icon" viewBox="0 0 24 24">
+            <path
+              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <div class="saved-items">
+        <div id="itemsList"></div>
+      </div>
+      <div class="footer">
+        <div class="footer-right">
+          <button id="undoButton" class="undo-btn" style="display: none">
+            <svg class="icon" viewBox="0 0 24 24">
+              <path
+                d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"
+              />
+            </svg>
+            Recover
+          </button>
+        </div>
+        <div class="footer-left">
+          <a
+            id="creditLink"
+            href="https://www.linkedin.com/in/akasumitlamba/"
+            target="_blank"
+            class="credit-link"
+            >Made by @akasumitlamba</a
+          >
+        </div>
+      </div>
     </div>
     <script src="popup.js"></script>
-</body>
-</html>  
+  </body>
+</html>

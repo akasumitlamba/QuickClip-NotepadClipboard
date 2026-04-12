@@ -1,0 +1,166 @@
+const MENU_IDS = {
+  selection: 'quickclip-save-selection',
+  page: 'quickclip-save-page',
+  link: 'quickclip-save-link'
+};
+const KEYBOARD_SHORTCUT = 'Ctrl+Shift+S';
+const DEFAULT_BUTTON_SETTINGS = {
+  showCopyBtn: true,
+  showDeleteBtn: true,
+  showExpandBtn: true,
+  showSaveBtn: true,
+  showPasteSaveBtn: true,
+  showSearch: true,
+  enterToSave: true,
+  doubleClickEdit: true,
+  showRecoverBtn: true,
+  showSaveNotifications: true
+};
+
+chrome.runtime.onInstalled.addListener(() => {
+  createContextMenus();
+});
+
+chrome.runtime.onStartup.addListener(() => {
+  createContextMenus();
+});
+
+chrome.contextMenus.onClicked.addListener((info) => {
+  const textToSave = getContextValue(info);
+  if (textToSave) {
+    saveItem(textToSave, getSaveTypeLabel(info.menuItemId));
+  }
+});
+
+chrome.commands.onCommand.addListener(async (command) => {
+  if (command !== 'save-selection-or-page') {
+    return;
+  }
+
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  if (!tab?.id) {
+    return;
+  }
+
+  try {
+    const results = await chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      func: () => window.getSelection()?.toString().trim() || ''
+    });
+
+    const selectedText = results?.[0]?.result?.trim();
+    if (selectedText) {
+      saveItem(selectedText, 'Selected text');
+      return;
+    }
+
+    if (tab.url) {
+      saveItem(tab.url, 'Page URL');
+    }
+  } catch (error) {
+    console.error('QuickClip keyboard save failed:', error);
+    if (tab.url) {
+      saveItem(tab.url, 'Page URL');
+    }
+  }
+});
+
+function createContextMenus() {
+  chrome.contextMenus.removeAll(() => {
+    chrome.contextMenus.create({
+      id: MENU_IDS.selection,
+      title: `QuickClip: Save selection (${KEYBOARD_SHORTCUT})`,
+      contexts: ['selection']
+    });
+
+    chrome.contextMenus.create({
+      id: MENU_IDS.link,
+      title: 'QuickClip: Save link',
+      contexts: ['link']
+    });
+
+    chrome.contextMenus.create({
+      id: MENU_IDS.page,
+      title: `QuickClip: Save page (${KEYBOARD_SHORTCUT})`,
+      contexts: ['page']
+    });
+  });
+}
+
+function getContextValue(info) {
+  if (info.menuItemId === MENU_IDS.selection) {
+    return info.selectionText?.trim() || '';
+  }
+
+  if (info.menuItemId === MENU_IDS.link) {
+    return info.linkUrl?.trim() || '';
+  }
+
+  if (info.menuItemId === MENU_IDS.page) {
+    return info.pageUrl?.trim() || '';
+  }
+
+  return '';
+}
+
+function getSaveTypeLabel(menuItemId) {
+  if (menuItemId === MENU_IDS.selection) {
+    return 'Selected text';
+  }
+
+  if (menuItemId === MENU_IDS.link) {
+    return 'Hyperlink';
+  }
+
+  if (menuItemId === MENU_IDS.page) {
+    return 'Page URL';
+  }
+
+  return 'Item';
+}
+
+function saveItem(text, sourceLabel = 'Item') {
+  chrome.storage.local.get(['savedItems'], (result) => {
+    const savedItems = Array.isArray(result.savedItems) ? result.savedItems : [];
+    const newItem = {
+      id: Date.now(),
+      text,
+      timestamp: new Date().toISOString()
+    };
+
+    savedItems.unshift(newItem);
+    chrome.storage.local.set({ savedItems }, () => {
+      showSaveFeedback(sourceLabel, text);
+    });
+  });
+}
+
+function showSaveFeedback(sourceLabel, text) {
+  chrome.storage.local.get(['buttonSettings'], (result) => {
+    const buttonSettings = normalizeButtonSettings(result.buttonSettings);
+    const notificationsEnabled = buttonSettings.showSaveNotifications;
+    if (!notificationsEnabled) {
+      return;
+    }
+
+    const preview = text.length > 80 ? `${text.slice(0, 77)}...` : text;
+
+    chrome.notifications.create({
+      type: 'basic',
+      iconUrl: 'icons/icon48.png',
+      title: `${sourceLabel} saved to QuickClip`,
+      message: preview || 'Saved successfully'
+    });
+  });
+}
+
+function normalizeButtonSettings(settings) {
+  const normalized = {};
+  const sourceSettings = settings && typeof settings === 'object' ? settings : {};
+
+  for (const [key, defaultValue] of Object.entries(DEFAULT_BUTTON_SETTINGS)) {
+    normalized[key] = typeof sourceSettings[key] === 'boolean' ? sourceSettings[key] : defaultValue;
+  }
+
+  return normalized;
+}
