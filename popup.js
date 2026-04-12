@@ -535,11 +535,15 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        // Validate and update save button
-        if (saveButton && showSaveBtn && showSaveBtn.checked) {
-            saveButton.style.display = 'flex';
-        } else if (saveButton) {
-            saveButton.style.display = 'none';
+        // Validate and update save button and text input area
+        const textInputEl = document.getElementById('textInput');
+        
+        if (showSaveBtn && showSaveBtn.checked) {
+            if (saveButton) saveButton.style.display = '';
+            if (textInputEl) textInputEl.style.display = '';
+        } else {
+            if (saveButton) saveButton.style.display = 'none';
+            if (textInputEl) textInputEl.style.display = 'none';
         }
 
         // Validate and update paste save button
@@ -547,6 +551,16 @@ document.addEventListener('DOMContentLoaded', function() {
             pasteSaveButton.style.display = 'flex';
         } else if (pasteSaveButton) {
             pasteSaveButton.style.display = 'none';
+        }
+
+        // Collapse input section entirely if both are off
+        const inputSection = document.querySelector('.input-section');
+        if (inputSection) {
+            if ((!showSaveBtn || !showSaveBtn.checked) && (!showPasteSaveBtn || !showPasteSaveBtn.checked)) {
+                inputSection.style.display = 'none';
+            } else {
+                inputSection.style.display = 'flex';
+            }
         }
 
         // Validate and update search section
@@ -722,6 +736,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         clearTimeout(clickTimer);
                     }
                     
+                    // Hide action buttons during edit
+                    buttonContainer.style.display = 'none';
+
                     const textarea = document.createElement('textarea');
                     textarea.value = item.text;
                     textarea.className = 'edit-textarea';
@@ -749,13 +766,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         } else {
                             renderItems();
                         }
+                        // Restore action buttons just in case renderItems doesn't fully replace DOM immediately
+                        buttonContainer.style.display = 'flex';
                     }
                     
                     textarea.addEventListener('blur', saveEdit);
                     textarea.addEventListener('keydown', function(e) {
                         if (e.key === 'Enter' && !e.shiftKey) {
                             e.preventDefault();
-                            saveEdit();
+                            textarea.blur(); // Trigger blur to save edit
                         }
                     });
                 });

@@ -484,7 +484,7 @@ body {
     gap: 3px;
     align-items: center;
     flex-shrink: 0;
-    height: 32px;
+    height: auto;
     order: 2;
 }
 
@@ -550,7 +550,7 @@ body {
 .saved-item {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: stretch;
     gap: 6px;
     padding: 6px;
     border-radius: 8px;
