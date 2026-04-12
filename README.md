@@ -10,15 +10,17 @@ A Chrome extension that combines a notepad and clipboard manager so you can save
 
 ## Get the Extension
 
-- [Edge](https://microsoftedge.microsoft.com/addons/detail/icffibdmcbmfnpbjeojmlpechnebmoni)
-- [Chrome](https://chromewebstore.google.com/detail/mjdfflpebcmmpipdeeianpjfolmhkmna?utm_source=item-share-cb)
+<img width="18" height="18" alt="image" src="https://github.com/user-attachments/assets/02febd7b-5c6c-44ae-bd89-8bbfe0d3c67d" />[Edge](https://microsoftedge.microsoft.com/addons/detail/icffibdmcbmfnpbjeojmlpechnebmoni)
+
+<img width="16" height="16" alt="image" src="https://github.com/user-attachments/assets/fcb342e1-fafe-473c-8e56-dbb59f8c494d" />[Chrome](https://chromewebstore.google.com/detail/mjdfflpebcmmpipdeeianpjfolmhkmna?utm_source=item-share-cb)
 
 ## QuickClip Pro (Free)
 
 Pro adds support for images and links alongside text snippets, custom tags for organization, and a counter for daily task tracking.
 
-- [Edge](https://microsoftedge.microsoft.com/addons/detail/fdpdihkediefiklboeedbcaeamachnlc)
-- [Chrome](https://chromewebstore.google.com/detail/ndibnfgbmcfgoeapohknfeeiilgfhdjg?utm_source=item-share-cb)
+<img width="18" height="18" alt="image" src="https://github.com/user-attachments/assets/02febd7b-5c6c-44ae-bd89-8bbfe0d3c67d" />[Edge](https://microsoftedge.microsoft.com/addons/detail/fdpdihkediefiklboeedbcaeamachnlc)
+
+<img width="16" height="16" alt="image" src="https://github.com/user-attachments/assets/fcb342e1-fafe-473c-8e56-dbb59f8c494d" />[Chrome](https://chromewebstore.google.com/detail/ndibnfgbmcfgoeapohknfeeiilgfhdjg?utm_source=item-share-cb)
 
 ## What's New in v3.0
 
