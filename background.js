@@ -42,6 +42,20 @@ chrome.commands.onCommand.addListener(async (command) => {
     return;
   }
 
+  const isRestrictedUrl = tab.url && (
+    tab.url.startsWith('chrome://') || 
+    tab.url.startsWith('edge://') || 
+    tab.url.startsWith('about:') || 
+    tab.url.startsWith('https://chrome.google.com/webstore') ||
+    tab.url.startsWith('https://chromewebstore.google.com') ||
+    tab.url.startsWith('https://microsoftedge.microsoft.com/addons')
+  );
+
+  if (isRestrictedUrl) {
+    saveItem(tab.url, 'Page URL');
+    return;
+  }
+
   try {
     const results = await chrome.scripting.executeScript({
       target: { tabId: tab.id },
@@ -58,7 +72,7 @@ chrome.commands.onCommand.addListener(async (command) => {
       saveItem(tab.url, 'Page URL');
     }
   } catch (error) {
-    console.error('QuickClip keyboard save failed:', error);
+    // Cannot execute script on restricted URLs, so save the page URL instead
     if (tab.url) {
       saveItem(tab.url, 'Page URL');
     }
@@ -135,7 +149,16 @@ function saveItem(text, sourceLabel = 'Item') {
   });
 }
 
+let lastNotificationTime = 0;
+const NOTIFICATION_COOLDOWN_MS = 2000;
+
 function showSaveFeedback(sourceLabel, text) {
+  const now = Date.now();
+  if (now - lastNotificationTime < NOTIFICATION_COOLDOWN_MS) {
+    return;
+  }
+  lastNotificationTime = now;
+
   chrome.storage.local.get(['buttonSettings'], (result) => {
     const buttonSettings = normalizeButtonSettings(result.buttonSettings);
     const notificationsEnabled = buttonSettings.showSaveNotifications;
