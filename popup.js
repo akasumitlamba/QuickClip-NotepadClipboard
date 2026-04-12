@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let savedItems = [];
     let deletedItems = [];
-    let preDeletionSavedItems = null;
     let undoTimeout = null;
     let isRecovering = false;
     let hasRecovered = false;
@@ -62,11 +61,11 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 text: '<svg class="icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z"/></svg> Rate us 5 stars',
-                url: 'https://chromewebstore.google.com/detail/mjdfflpebcmmpipdeeianpjfolmhkmna?utm_source=item-share-cb'
+                url: 'https://microsoftedge.microsoft.com/addons/detail/icffibdmcbmfnpbjeojmlpechnebmoni'
             },
             {
                 text: '<svg class="icon" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/></svg> Share QuickClip',
-                url: 'https://chromewebstore.google.com/detail/mjdfflpebcmmpipdeeianpjfolmhkmna?utm_source=item-share-cb'
+                url: 'https://microsoftedge.microsoft.com/addons/detail/icffibdmcbmfnpbjeojmlpechnebmoni'
             }
         ];
         
@@ -132,7 +131,9 @@ document.addEventListener('DOMContentLoaded', function() {
     chrome.storage.onChanged.addListener(function(changes, areaName) {
         if (areaName === 'local' && changes.savedItems) {
             savedItems = changes.savedItems.newValue || [];
-            renderItems();
+            if (!document.querySelector('.edit-textarea:focus')) {
+                renderItems();
+            }
         }
     });
 
@@ -198,15 +199,19 @@ document.addEventListener('DOMContentLoaded', function() {
         const text = textInput.value.trim();
         if (text) {
             const newItem = {
-                id: Date.now(),
+                id: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString() + '-' + Math.random().toString(36).substr(2, 9),
                 text: text,
                 timestamp: new Date().toISOString()
             };
-            savedItems.unshift(newItem);
-            chrome.storage.local.set({ savedItems: savedItems }, function() {
-                renderItems();
-                textInput.value = '';
-                if (charCount) charCount.textContent = '0';
+            chrome.storage.local.get(['savedItems'], function(result) {
+                const currentItems = result.savedItems || [];
+                currentItems.unshift(newItem);
+                chrome.storage.local.set({ savedItems: currentItems }, function() {
+                    // renderItems will be called by onChanged if not editing
+                    if (!document.querySelector('.edit-textarea:focus')) renderItems();
+                    textInput.value = '';
+                    if (charCount) charCount.textContent = '0';
+                });
             });
         }
     }
@@ -217,13 +222,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const clipboardText = await navigator.clipboard.readText();
             if (clipboardText.trim()) {
                 const newItem = {
-                    id: Date.now(),
+                    id: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString() + '-' + Math.random().toString(36).substr(2, 9),
                     text: clipboardText,
                     timestamp: new Date().toISOString()
                 };
-                savedItems.unshift(newItem);
-                chrome.storage.local.set({ savedItems: savedItems }, function() {
-                    renderItems();
+                chrome.storage.local.get(['savedItems'], function(result) {
+                    const currentItems = result.savedItems || [];
+                    currentItems.unshift(newItem);
+                    chrome.storage.local.set({ savedItems: currentItems }, function() {
+                        if (!document.querySelector('.edit-textarea:focus')) renderItems();
+                    });
                 });
             }
         } catch (err) {
@@ -656,45 +664,46 @@ document.addEventListener('DOMContentLoaded', function() {
                     // If this is the first delete since the last recovery or page load, reset the state
                     if (deletedItems.length === 0) {
                         hasRecovered = false;
-                        preDeletionSavedItems = [...savedItems];
                         if (undoTimeout) {
                             clearTimeout(undoTimeout);
                             undoTimeout = null;
                         }
                     }
                     
-                    // Store the deleted item object (just id and text needed)
-                    deletedItems.push({ id: item.id, text: item.text });
-                    // Remove from currently displayed saved items
-                    savedItems = savedItems.filter(i => i.id !== item.id);
-                    chrome.storage.local.set({ savedItems: savedItems }, function() {
-                        renderItems();
-                        // Show recover button ONLY if setting is enabled and it hasn't been used yet
-                        const recoverButton = document.getElementById('undoButton');
-                        if (showRecoverBtn.checked && !hasRecovered) {
-                            recoverButton.style.display = 'flex';
-                        } else {
-                            // Explicitly hide if setting is off or already recovered
-                            recoverButton.style.display = 'none';
-                        }
+                    // Store the full item for proper recovery
+                    deletedItems.push(item);
+                    
+                    chrome.storage.local.get(['savedItems'], function(result) {
+                        let currentItems = result.savedItems || [];
+                        currentItems = currentItems.filter(i => i.id !== item.id);
                         
-                        // Always reset the timeout on each deletion within the sequence
-                        if (undoTimeout) {
-                            clearTimeout(undoTimeout);
-                        }
-                        // Set timeout to hide recover button after 10 seconds, only if setting is enabled
-                        if (showRecoverBtn.checked) {
-                            undoTimeout = setTimeout(() => {
-                                // Check again if setting is still enabled and recovery hasn't happened
-                                if (showRecoverBtn.checked && !hasRecovered) {
-                                    recoverButton.style.display = 'none';
-                                    deletedItems = []; // Clear deleted items if timeout expires before recovery
-                                    preDeletionSavedItems = null; // Clear snapshot if timeout expires
-                                } 
-                                // If setting was turned off or recovery happened during timeout, do nothing here
-                                // State cleanup happens elsewhere (setting change or recovery click)
-                            }, 10000);
-                        }
+                        chrome.storage.local.set({ savedItems: currentItems }, function() {
+                            if (!document.querySelector('.edit-textarea:focus')) renderItems();
+                            // Show recover button ONLY if setting is enabled and it hasn't been used yet
+                            const recoverButton = document.getElementById('undoButton');
+                            if (showRecoverBtn.checked && !hasRecovered) {
+                                recoverButton.style.display = 'flex';
+                            } else {
+                                // Explicitly hide if setting is off or already recovered
+                                recoverButton.style.display = 'none';
+                            }
+                            
+                            // Always reset the timeout on each deletion within the sequence
+                            if (undoTimeout) {
+                                clearTimeout(undoTimeout);
+                            }
+                            // Set timeout to hide recover button after 10 seconds, only if setting is enabled
+                            if (showRecoverBtn.checked) {
+                                undoTimeout = setTimeout(() => {
+                                    // Check again if setting is still enabled and recovery hasn't happened
+                                    if (showRecoverBtn.checked && !hasRecovered) {
+                                        recoverButton.style.display = 'none';
+                                        deletedItems = []; // Clear deleted items if timeout expires before recovery
+                                    } 
+                                    // If setting was turned off or recovery happened during timeout, do nothing here
+                                }, 10000);
+                            }
+                        });
                     });
                 });
             }
@@ -766,9 +775,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     function saveEdit() {
                         const newText = textarea.value.trim();
                         if (newText && newText !== item.text) {
-                            item.text = newText;
-                            chrome.storage.local.set({ savedItems: savedItems }, function() {
-                                renderItems();
+                            chrome.storage.local.get(['savedItems'], function(result) {
+                                let currentItems = result.savedItems || [];
+                                const itemIndex = currentItems.findIndex(i => i.id === item.id);
+                                if (itemIndex !== -1) {
+                                    currentItems[itemIndex].text = newText;
+                                    chrome.storage.local.set({ savedItems: currentItems }, function() {
+                                        // The onChanged listener will call renderItems correctly
+                                        // but if not, we can force it here:
+                                        if (!document.querySelector('.edit-textarea:focus')) renderItems();
+                                    });
+                                } else {
+                                    renderItems();
+                                }
                             });
                         } else {
                             renderItems();
@@ -805,7 +824,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('undoButton').addEventListener('click', function() {
         const recoverButton = this;
         // Double-check setting before allowing recovery
-        if (showRecoverBtn.checked && deletedItems.length > 0 && !isRecovering && !hasRecovered && preDeletionSavedItems) {
+        if (showRecoverBtn.checked && deletedItems.length > 0 && !isRecovering && !hasRecovered) {
             isRecovering = true;
             
             if (undoTimeout) {
@@ -813,25 +832,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 undoTimeout = null;
             }
 
-            // IDs of items currently displayed (not deleted in this sequence)
-            const currentItemIds = new Set(savedItems.map(item => item.id));
-            // IDs of items deleted in this sequence (to be recovered)
-            const deletedItemIds = new Set(deletedItems.map(item => item.id));
+            chrome.storage.local.get(['savedItems'], function(result) {
+                let currentItems = result.savedItems || [];
+                
+                // Add deleted items back, avoiding any duplicates just in case
+                const currentIds = new Set(currentItems.map(item => item.id));
+                const itemsToRestore = deletedItems.filter(item => !currentIds.has(item.id));
+                
+                currentItems = [...currentItems, ...itemsToRestore];
+                currentItems.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
-            // Reconstruct the list based on the pre-deletion snapshot
-            // Include items that were originally present and are either still present or being recovered
-            savedItems = preDeletionSavedItems.filter(originalItem => 
-                currentItemIds.has(originalItem.id) || deletedItemIds.has(originalItem.id)
-            );
-
-            chrome.storage.local.set({ savedItems: savedItems }, function() {
-                renderItems();
-                // Hide recover button and clear state for this sequence
-                recoverButton.style.display = 'none'; // Always hide after recovery
-                deletedItems = [];
-                preDeletionSavedItems = null; 
-                isRecovering = false;
-                hasRecovered = true; 
+                chrome.storage.local.set({ savedItems: currentItems }, function() {
+                    if (!document.querySelector('.edit-textarea:focus')) renderItems();
+                    
+                    recoverButton.style.display = 'none'; // Always hide after recovery
+                    deletedItems = [];
+                    isRecovering = false;
+                    hasRecovered = true; 
+                });
             });
         }
     });

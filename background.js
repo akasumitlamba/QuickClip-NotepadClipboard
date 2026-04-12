@@ -79,11 +79,24 @@ chrome.commands.onCommand.addListener(async (command) => {
   }
 });
 
-function createContextMenus() {
+async function createContextMenus() {
+  let shortcut = KEYBOARD_SHORTCUT;
+  try {
+    if (chrome.commands && chrome.commands.getAll) {
+      const commands = await chrome.commands.getAll();
+      const saveCmd = commands.find(c => c.name === 'save-selection-or-page');
+      if (saveCmd && saveCmd.shortcut) {
+        shortcut = saveCmd.shortcut;
+      }
+    }
+  } catch (e) {
+    // fallback to KEYBOARD_SHORTCUT
+  }
+
   chrome.contextMenus.removeAll(() => {
     chrome.contextMenus.create({
       id: MENU_IDS.selection,
-      title: `QuickClip: Save selection (${KEYBOARD_SHORTCUT})`,
+      title: `QuickClip: Save selection (${shortcut})`,
       contexts: ['selection']
     });
 
@@ -95,7 +108,7 @@ function createContextMenus() {
 
     chrome.contextMenus.create({
       id: MENU_IDS.page,
-      title: `QuickClip: Save page (${KEYBOARD_SHORTCUT})`,
+      title: `QuickClip: Save page (${shortcut})`,
       contexts: ['page']
     });
   });
@@ -137,7 +150,7 @@ function saveItem(text, sourceLabel = 'Item') {
   chrome.storage.local.get(['savedItems'], (result) => {
     const savedItems = Array.isArray(result.savedItems) ? result.savedItems : [];
     const newItem = {
-      id: Date.now(),
+      id: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString() + '-' + Math.random().toString(36).substr(2, 9),
       text,
       timestamp: new Date().toISOString()
     };
