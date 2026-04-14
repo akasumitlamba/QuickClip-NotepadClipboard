@@ -89,7 +89,7 @@ body::-webkit-scrollbar {
     flex-direction: column;
     flex: 1;
     min-height: 0;
-    max-height: 328px;
+    max-height: 480px;
     overflow-y: overlay;
     width: 100%;
     box-sizing: border-box;
@@ -97,12 +97,13 @@ body::-webkit-scrollbar {
     margin-right: 0;
 }
 
-.settings-panel.active ~ .saved-items {
-    max-height: 80px;
-}
-
 body {
     width: 300px;
+    min-height: 200px;
+    height: auto;
+    max-height: 560px;
+    display: flex;
+    flex-direction: column;
     margin: 0;
     padding: 15px;
     font-family: Arial, sans-serif;
@@ -113,8 +114,7 @@ body {
     -webkit-backdrop-filter: blur(10px);
     transition: background-color 0.3s ease, color 0.3s ease;
     font-size: var(--font-size);
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 .container {
@@ -122,9 +122,10 @@ body {
     flex-direction: column;
     gap: 6px;
     width: 100%;
+    flex: 1;
+    overflow: hidden;
     box-sizing: border-box;
     padding: 0;
-    overflow: visible;
 }
 
 .header {
@@ -134,6 +135,7 @@ body {
     margin-bottom: 1px;
     width: 100%;
     box-sizing: border-box;
+    flex-shrink: 0;
 }
 
 .header h2 {
@@ -258,16 +260,18 @@ body {
     transform: translateY(-10px);
     transition: max-height 0.3s ease-out, opacity 0.3s ease-out, transform 0.3s ease-out, padding 0.3s ease-out, margin 0.3s ease-out;
     display: none;
+    flex-shrink: 0;
 }
 
 .settings-panel.active {
-    max-height: 1500px;
+    max-height: 400px;
     opacity: 1;
     transform: translateY(0);
     padding: 6px;
     margin-bottom: 6px;
-    overflow: hidden;
+    overflow-y: auto;
     display: block;
+    flex-shrink: 0;
 }
 
 .settings-panel h3 {
@@ -388,6 +392,7 @@ body {
     gap: 4px;
     width: 100%;
     box-sizing: border-box;
+    flex-shrink: 0;
 }
 
 .button-group {
@@ -497,6 +502,7 @@ body {
     display: flex;
     align-items: center;
     width: 100%;
+    flex-shrink: 0;
 }
 
 #searchInput {
@@ -661,6 +667,7 @@ body {
     margin-top: 0;
     padding: 0;
     width: 100%;
+    flex-shrink: 0;
 }
 
 .footer-left {

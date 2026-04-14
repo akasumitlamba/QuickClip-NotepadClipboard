@@ -61,11 +61,11 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 text: '<svg class="icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z"/></svg> Rate us 5 stars',
-                url: 'https://microsoftedge.microsoft.com/addons/detail/icffibdmcbmfnpbjeojmlpechnebmoni'
+                url: 'https://chromewebstore.google.com/detail/mjdfflpebcmmpipdeeianpjfolmhkmna?utm_source=item-share-cb'
             },
             {
                 text: '<svg class="icon" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/></svg> Share QuickClip',
-                url: 'https://microsoftedge.microsoft.com/addons/detail/icffibdmcbmfnpbjeojmlpechnebmoni'
+                url: 'https://chromewebstore.google.com/detail/mjdfflpebcmmpipdeeianpjfolmhkmna?utm_source=item-share-cb'
             }
         ];
         
@@ -552,13 +552,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Validate and update save button and text input area
         const textInputEl = document.getElementById('textInput');
+        const charCountEl = document.getElementById('charCount');
+        const textareaContainer = document.querySelector('.textarea-container');
         
         if (showSaveBtn && showSaveBtn.checked) {
             if (saveButton) saveButton.style.display = '';
             if (textInputEl) textInputEl.style.display = '';
+            if (charCountEl) charCountEl.style.display = '';
+            if (textareaContainer) textareaContainer.style.display = '';
         } else {
             if (saveButton) saveButton.style.display = 'none';
             if (textInputEl) textInputEl.style.display = 'none';
+            if (charCountEl) charCountEl.style.display = 'none';
+            if (textareaContainer) textareaContainer.style.display = 'none';
         }
 
         // Validate and update paste save button
