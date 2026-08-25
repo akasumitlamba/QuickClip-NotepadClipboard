@@ -2,6 +2,7 @@
 
 # QuickClip - Notepad Clipboard
 
+
 </div>
 
 A Chrome extension that combines a notepad and clipboard manager so you can save, organize, and access text snippets without leaving your browser.
