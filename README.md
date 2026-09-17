@@ -1,6 +1,6 @@
 <div align="center">
 
-# QuickClip - Notepad Clipboard
+# QuickClip - NotepadClipboard
 
 </div>
 
